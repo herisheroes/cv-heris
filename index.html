@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heris Apriadi - Digital Educator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        gBlue: '#2D68F8',
+                        gRed: '#F25244',
+                        gYellow: '#FABB05',
+                        gGreen: '#34A853',
+                        dark: '#111827'
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #f0f4fd; 
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(217,100%,94%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(280,100%,96%,1) 0, transparent 50%),
+                radial-gradient(at 100% 100%, hsla(217,100%,94%,1) 0, transparent 50%),
+                radial-gradient(at 0% 100%, hsla(40,100%,94%,1) 0, transparent 50%);
+            background-attachment: fixed;
+        }
+        
+        /* Highlight Menu Aktif dengan Background Biru Muda */
+        .nav-link.active { 
+            color: #2D68F8 !important; 
+            font-weight: 800 !important; 
+            background-color: #eff6ff !important;
+            border-radius: 9999px;
+        }
+        
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Fix Bug Spasi Kosong: Paksa sembunyikan section yang tidak aktif */
+        .page-section:not(.active) { 
+            display: none !important; 
+        }
+        .page-section.active { 
+            animation: slideUp 0.5s ease-out forwards; 
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #2D68F8 0%, #F25244 50%, #FABB05 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- Global Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-white/90 backdrop-blur-sm z-[100] flex flex-col items-center justify-center hidden">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-gBlue mb-4"></div>
+        <p class="text-gray-600 font-bold text-lg animate-pulse">Memuat Data...</p>
+    </div>
+
+    <!-- FLOATING NAVBAR -->
+    <div class="fixed w-full top-4 z-50 px-4 flex justify-center">
+        <nav class="bg-white/95 backdrop-blur-xl shadow-lg shadow-blue-900/5 rounded-full px-6 py-3 flex justify-between items-center w-full max-w-6xl border border-white">
+            <div class="flex items-center cursor-pointer group" onclick="navigateTo('home')">
+                <div class="bg-gBlue text-white font-black text-xl w-10 h-10 rounded-xl flex items-center justify-center shadow-md mr-3 group-hover:scale-105 transition-transform">
+                    <span id="nav-initials">HA</span>
+                </div>
+                <div class="leading-tight hidden sm:block">
+                    <h1 class="font-extrabold text-sm text-dark tracking-wide" id="nav-nama">Heris Apriadi</h1>
+                    <p class="text-[10px] font-bold text-gBlue tracking-widest uppercase">Digital Educator</p>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center space-x-1">
+                <button onclick="navigateTo('home')" class="nav-btn nav-link active px-4 py-2 text-sm font-semibold text-gray-500 hover:text-gBlue hover:bg-blue-50 transition-all flex items-center gap-1.5"><i class="ph-fill ph-user text-lg"></i> Home</button>
+                <button onclick="navigateTo('profil')" class="nav-btn nav-link px-4 py-2 text-sm font-semibold text-gray-500 hover:text-gBlue hover:bg-blue-50 transition-all flex items-center gap-1.5"><i class="ph-fill ph-briefcase text-lg"></i> Profil</button>
+                <button onclick="navigateTo('pelatihan')" class="nav-btn nav-link px-4 py-2 text-sm font-semibold text-gray-500 hover:text-gBlue hover:bg-blue-50 transition-all flex items-center gap-1.5"><i class="ph-fill ph-book-open text-lg"></i> Pelatihan</button>
+                <button onclick="navigateTo('gpd')" class="nav-btn nav-link px-4 py-2 text-sm font-semibold text-gray-500 hover:text-gBlue hover:bg-blue-50 transition-all flex items-center gap-1.5"><i class="ph-fill ph-medal text-lg"></i> GPD</button>
+                <button onclick="navigateTo('praktik')" class="nav-btn nav-link px-4 py-2 text-sm font-semibold text-gray-500 hover:text-gBlue hover:bg-blue-50 transition-all flex items-center gap-1.5"><i class="ph-fill ph-lightbulb text-lg"></i> Inovasi</button>
+                
+                <div class="w-px h-6 bg-gray-200 mx-2"></div>
+                <button id="nav-auth-btn" onclick="navigateTo('login')" class="nav-link text-gray-400 hover:text-dark p-2 transition-all">
+                    <i class="ph-fill ph-gear text-xl"></i>
+                </button>
+            </div>
+
+            <button onclick="toggleMobileMenu()" class="md:hidden text-gray-600 hover:text-gBlue p-2 bg-gray-100 rounded-full">
+                <i class="ph-bold ph-list text-xl"></i>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-xl pt-24 px-6 flex flex-col space-y-2">
+        <button onclick="navigateTo('home'); toggleMobileMenu()" class="nav-link px-4 w-full text-xl font-bold text-gray-700 py-4 border-b border-gray-100 text-left flex items-center gap-3"><i class="ph-fill ph-user text-gBlue"></i> Home</button>
+        <button onclick="navigateTo('profil'); toggleMobileMenu()" class="nav-link px-4 w-full text-xl font-bold text-gray-700 py-4 border-b border-gray-100 text-left flex items-center gap-3"><i class="ph-fill ph-briefcase text-gBlue"></i> Profil & CV</button>
+        <button onclick="navigateTo('pelatihan'); toggleMobileMenu()" class="nav-link px-4 w-full text-xl font-bold text-gray-700 py-4 border-b border-gray-100 text-left flex items-center gap-3"><i class="ph-fill ph-book-open text-gBlue"></i> Pelatihan</button>
+        <button onclick="navigateTo('gpd'); toggleMobileMenu()" class="nav-link px-4 w-full text-xl font-bold text-gray-700 py-4 border-b border-gray-100 text-left flex items-center gap-3"><i class="ph-fill ph-medal text-gRed"></i> GPD</button>
+        <button onclick="navigateTo('praktik'); toggleMobileMenu()" class="nav-link px-4 w-full text-xl font-bold text-gray-700 py-4 border-b border-gray-100 text-left flex items-center gap-3"><i class="ph-fill ph-lightbulb text-gYellow"></i> Praktik Baik</button>
+        <button id="mobile-nav-auth-btn" onclick="navigateTo('login'); toggleMobileMenu()" class="nav-link px-4 w-full text-xl font-bold text-white bg-dark rounded-xl py-4 text-center mt-4">Login Admin</button>
+    </div>
+
+    <!-- MAIN CONTENT (Jarak Atas Diperbaiki dan Diseragamkan) -->
+    <main class="flex-grow pt-28 pb-16 px-4">
+
+        <!-- HALAMAN 1: HOME -->
+        <section id="page-home" class="page-section active max-w-6xl mx-auto min-h-[70vh] flex items-center">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-8 w-full">
+                <div class="lg:w-1/2">
+                    <h1 class="text-5xl lg:text-7xl font-black tracking-tight leading-[1.1] text-dark mb-6">
+                        Wujudkan <span class="gradient-text">Masa Depan</span><br>Pendidikan Digital.
+                    </h1>
+                    <p class="text-lg text-gray-600 mb-10 leading-relaxed font-medium max-w-lg">
+                        Selamat datang! Saya <span class="font-bold text-dark border-b-2 border-gBlue" id="home-nama">Heris Apriadi</span>. 
+                        <span id="home-desc">Berfokus pada pemberdayaan guru dan siswa melalui teknologi inovatif.</span>
+                    </p>
+
+                    <div class="flex flex-wrap gap-3 mb-10">
+                        <button onclick="navigateTo('profil')" class="bg-dark hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl flex items-center gap-2 shadow-lg transition-transform hover:-translate-y-1">
+                            <i class="ph-fill ph-user"></i> Profil & CV
+                        </button>
+                        <button onclick="navigateTo('pelatihan')" class="bg-gBlue hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl flex items-center gap-2 shadow-lg transition-transform hover:-translate-y-1">
+                            <i class="ph-fill ph-book-open"></i> Dok. Pelatihan
+                        </button>
+                        <button onclick="navigateTo('gpd')" class="bg-gRed hover:bg-red-600 text-white font-bold py-3 px-6 rounded-xl flex items-center gap-2 shadow-lg transition-transform hover:-translate-y-1">
+                            <i class="ph-fill ph-medal"></i> Dok. GPD
+                        </button>
+                        <button onclick="navigateTo('praktik')" class="bg-white hover:bg-gray-50 text-dark border border-gray-200 font-bold py-3 px-6 rounded-xl flex items-center gap-2 shadow-lg transition-transform hover:-translate-y-1">
+                            <i class="ph-fill ph-lightbulb text-gYellow"></i> Inovasi Pembelajaran
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:w-1/2 relative flex justify-center lg:justify-end mt-4 lg:mt-0">
+                    <div class="absolute -top-6 left-0 lg:left-12 z-20 bg-white p-4 rounded-2xl shadow-xl border border-gray-100 animate-bounce-slow">
+                        <div class="w-10 h-10 bg-yellow-100 text-gYellow rounded-full flex items-center justify-center"><i class="ph-fill ph-medal text-2xl"></i></div>
+                    </div>
+                    
+                    <div class="relative w-full max-w-[450px] aspect-square rounded-[2rem] bg-white p-2 shadow-2xl border border-white rotate-2 hover:rotate-0 transition-all duration-500">
+                        <div class="w-full h-full rounded-[1.5rem] overflow-hidden bg-gray-100 relative group">
+                            <img id="home-foto" src="https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Heris Apriadi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN 2: PROFIL LENGKAP -->
+        <section id="page-profil" class="page-section max-w-6xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-black text-dark mb-3">Profil <span class="text-gBlue">&</span> Curriculum Vitae</h2>
+                <p class="text-gray-600 font-medium">Perjalanan karir, pendidikan, dan pengalaman profesional.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Kolom Kiri -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="glass-panel p-8 rounded-3xl shadow-sm">
+                        <div class="w-32 h-32 rounded-full overflow-hidden mx-auto mb-6 border-4 border-white shadow-lg">
+                            <img id="prof-foto" src="https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Profile" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-2xl font-bold text-center text-dark" id="prof-nama">Nama Lengkap</h3>
+                        <p class="text-center text-gBlue font-bold text-sm mb-6" id="prof-jabatan">Jabatan & Instansi</p>
+                        
+                        <div class="space-y-4 text-sm font-medium text-gray-600">
+                            <div class="flex items-center gap-3"><i class="ph-fill ph-envelope-simple text-gray-400 text-lg"></i> <span id="prof-email">email@example.com</span></div>
+                            <div class="flex items-center gap-3"><i class="ph-fill ph-phone text-gray-400 text-lg"></i> <span id="prof-telepon">+62 800 000</span></div>
+                            <div class="flex items-center gap-3"><i class="ph-fill ph-map-pin text-gray-400 text-lg"></i> <span id="prof-alamat">Alamat Anda</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Skills Statis -->
+                    <div class="glass-panel p-8 rounded-3xl shadow-sm">
+                        <h4 class="font-bold text-dark text-lg mb-4 flex items-center gap-2"><i class="ph-fill ph-star text-gYellow"></i> Skill & Kemampuan</h4>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-xs font-bold mb-1"><span class="text-gray-700">Google Workspace for Education</span><span class="text-gBlue">95%</span></div>
+                                <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-gBlue h-2 rounded-full" style="width: 95%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-bold mb-1"><span class="text-gray-700">Desain Media Ajar</span><span class="text-gBlue">85%</span></div>
+                                <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-gBlue h-2 rounded-full" style="width: 85%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-bold mb-1"><span class="text-gray-700">Public Speaking</span><span class="text-gBlue">90%</span></div>
+                                <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-gBlue h-2 rounded-full" style="width: 90%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan: Timeline Statis -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Deskripsi Diri -->
+                    <div class="glass-panel p-8 rounded-3xl shadow-sm">
+                        <h4 class="font-bold text-dark text-xl mb-4 flex items-center gap-3"><i class="ph-fill ph-user-circle text-3xl text-gYellow"></i> Tentang Saya</h4>
+                        <p class="text-gray-600 font-medium leading-relaxed" id="prof-desc">Tuliskan deskripsi singkat mengenai pengalaman dan tujuan karir Anda di sini melalui panel Admin.</p>
+                    </div>
+
+                    <!-- Pendidikan -->
+                    <div class="glass-panel p-8 rounded-3xl shadow-sm">
+                        <h4 class="font-bold text-dark text-xl mb-6 flex items-center gap-3"><i class="ph-fill ph-graduation-cap text-3xl text-gBlue"></i> Riwayat Pendidikan</h4>
+                        <div class="relative border-l-2 border-gray-200 ml-3 space-y-6 pb-2">
+                            <div class="relative pl-6">
+                                <span class="absolute -left-[9px] top-1 w-4 h-4 bg-gBlue rounded-full border-4 border-white"></span>
+                                <h5 class="font-bold text-lg text-dark">S1 Pendidikan Guru Sekolah Dasar (PGSD)</h5>
+                                <p class="text-sm font-semibold text-gBlue mb-1">Universitas <span class="text-gray-400 font-normal">| Lulus 2019</span></p>
+                            </div>
+                            <div class="relative pl-6">
+                                <span class="absolute -left-[9px] top-1 w-4 h-4 bg-gray-300 rounded-full border-4 border-white"></span>
+                                <h5 class="font-bold text-lg text-dark">Pendidikan Profesi Guru (PPG)</h5>
+                                <p class="text-sm font-semibold text-gBlue mb-1">Kemendikdasmen <span class="text-gray-400 font-normal">| Tersertifikasi</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN 3: PELATIHAN -->
+        <section id="page-pelatihan" class="page-section max-w-6xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-black text-dark mb-3">Dokumentasi <span class="text-gBlue">Pelatihan</span></h2>
+                <p class="text-gray-600 font-medium">Kegiatan pengembangan diri sebagai peserta maupun narasumber.</p>
+            </div>
+            <div id="pelatihan-container" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3"></div>
+            <div id="pelatihan-empty" class="hidden text-center py-20 glass-panel rounded-3xl">
+                <i class="ph-fill ph-folder-open text-6xl text-gray-300 mb-4 block"></i>
+                <h3 class="text-xl font-bold text-gray-700">Belum ada data</h3>
+            </div>
+        </section>
+
+        <!-- HALAMAN 4: GPD -->
+        <section id="page-gpd" class="page-section max-w-6xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-black text-dark mb-3">Guru Pejuang <span class="text-gRed">Digital</span></h2>
+                <p class="text-gray-600 font-medium">Dokumentasi pengimbasan program GPD.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button onclick="filterGPD('Level 1 Inisiator')" id="tab-inisiator" class="gpd-tab bg-white shadow-sm text-gray-600 font-bold py-3 px-6 rounded-full border transition-all">Level 1: Inisiator</button>
+                <button onclick="filterGPD('Level 2 Akselerator')" id="tab-akselerator" class="gpd-tab bg-white shadow-sm text-gray-600 font-bold py-3 px-6 rounded-full border transition-all">Level 2: Akselerator</button>
+                <button onclick="filterGPD('Level 3 Inspirator')" id="tab-inspirator" class="gpd-tab bg-white shadow-sm text-gray-600 font-bold py-3 px-6 rounded-full border transition-all">Level 3: Inspirator</button>
+            </div>
+            <div id="gpd-container" class="space-y-8 max-w-4xl mx-auto"></div>
+            <div id="gpd-empty" class="hidden text-center py-20 glass-panel rounded-3xl max-w-4xl mx-auto">
+                <i class="ph-fill ph-rocket text-6xl text-gray-300 mb-4 block"></i>
+                <h3 class="text-xl font-bold text-gray-700">Belum ada dokumentasi</h3>
+            </div>
+        </section>
+
+        <!-- HALAMAN 5: PRAKTIK BAIK -->
+        <section id="page-praktik" class="page-section max-w-6xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-black text-dark mb-3">Inovasi <span class="text-gYellow">Pembelajaran</span></h2>
+                <p class="text-gray-600 font-medium">Kumpulan praktik baik dan inovasi media ajar di kelas.</p>
+            </div>
+            <div id="praktik-container" class="grid gap-8 md:grid-cols-2"></div>
+            <div id="praktik-empty" class="hidden text-center py-20 glass-panel rounded-3xl">
+                <i class="ph-fill ph-lightbulb text-6xl text-gray-300 mb-4 block"></i>
+                <h3 class="text-xl font-bold text-gray-700">Belum ada karya inovasi</h3>
+            </div>
+        </section>
+
+        <!-- HALAMAN 6: LOGIN ADMIN -->
+        <section id="page-login" class="page-section max-w-md mx-auto">
+            <div class="glass-panel p-10 rounded-3xl shadow-xl">
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 bg-dark text-white rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-lg">
+                        <i class="ph-bold ph-lock-key text-3xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-dark">Admin Panel</h2>
+                </div>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="mb-5">
+                        <label class="block text-gray-700 text-sm font-bold mb-2 ml-1">Username</label>
+                        <input class="w-full px-5 py-3 bg-white/80 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-dark" id="username" type="text" required>
+                    </div>
+                    <div class="mb-8">
+                        <label class="block text-gray-700 text-sm font-bold mb-2 ml-1">Password</label>
+                        <input class="w-full px-5 py-3 bg-white/80 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-dark" id="password" type="password" required>
+                    </div>
+                    <div id="login-error" class="hidden mb-5 text-center text-gRed font-bold text-sm">Username / Password salah!</div>
+                    <button class="w-full bg-dark hover:bg-gray-800 text-white font-bold py-4 rounded-xl shadow-lg transition-transform active:scale-95" type="submit">
+                        Login Dashboard
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- HALAMAN 7: ADMIN DASHBOARD (Ditambah Menu Profil dan Edit) -->
+        <section id="page-admin" class="page-section max-w-6xl mx-auto">
+            <div class="bg-dark rounded-3xl p-8 flex justify-between items-center shadow-xl mb-8">
+                <div class="text-white">
+                    <h2 class="text-2xl font-black">Admin Workspace</h2>
+                    <p class="text-gray-400 text-sm mt-1">Kelola data spreadsheet secara real-time.</p>
+                </div>
+                <button onclick="handleLogout()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all">
+                    <i class="ph-bold ph-sign-out"></i> Keluar
+                </button>
+            </div>
+
+            <div class="glass-panel rounded-3xl overflow-hidden shadow-sm border border-white">
+                <div class="flex border-b border-gray-200 bg-white/50 overflow-x-auto hide-scrollbar">
+                    <button onclick="switchAdminTab('Profil')" id="adm-tab-Profil" class="admin-tab flex-1 py-4 px-6 font-bold text-gBlue border-b-2 border-gBlue bg-white">Profil & Biodata</button>
+                    <button onclick="switchAdminTab('Pelatihan')" id="adm-tab-Pelatihan" class="admin-tab flex-1 py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 border-transparent">Data Pelatihan</button>
+                    <button onclick="switchAdminTab('GPD')" id="adm-tab-GPD" class="admin-tab flex-1 py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 border-transparent">Data GPD</button>
+                    <button onclick="switchAdminTab('PraktikBaik')" id="adm-tab-PraktikBaik" class="admin-tab flex-1 py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 border-transparent">Praktik Baik</button>
+                </div>
+
+                <div class="p-6 md:p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 id="admin-table-title" class="text-xl font-bold text-dark">Tabel Profil</h3>
+                        <button onclick="openAddModal()" class="bg-gBlue hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-md">
+                            <i class="ph-bold ph-plus"></i> Tambah Data
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50/50">
+                                <tr id="admin-thead" class="text-left text-xs font-black text-gray-500 uppercase tracking-wider"></tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 bg-white/50" id="admin-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white py-12 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <div class="bg-gBlue font-black w-8 h-8 rounded-lg flex items-center justify-center text-sm">HA</div>
+                <span class="font-bold tracking-wide">Digital Educator</span>
+            </div>
+            <p class="text-sm text-gray-400 font-medium text-center">&copy; 2024 Pendidikan Indonesia.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL TAMBAH & EDIT DATA -->
+    <div id="addModal" class="fixed inset-0 z-[100] flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-dark/60 backdrop-blur-sm" onclick="closeAddModal()"></div>
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden relative z-10 p-8 transform scale-95 opacity-0 transition-all duration-300 max-h-[90vh] flex flex-col" id="addModalContent">
+            <div class="flex justify-between items-center mb-6 shrink-0">
+                <h3 class="text-dark font-black text-xl" id="modal-title-text">Form Entri Data</h3>
+                <button onclick="closeAddModal()" class="text-gray-400 hover:text-gRed"><i class="ph-bold ph-x text-2xl"></i></button>
+            </div>
+            <div class="overflow-y-auto hide-scrollbar flex-grow pr-2">
+                <form id="addDataForm" onsubmit="submitAddData(event)">
+                    <div id="dynamic-form-fields" class="space-y-4"></div>
+                </form>
+            </div>
+            <div class="mt-6 flex justify-end gap-3 shrink-0 pt-4 border-t border-gray-100">
+                <button type="button" onclick="closeAddModal()" class="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200">Batal</button>
+                <button type="button" onclick="submitAddData(event)" class="px-6 py-3 bg-dark text-white rounded-xl font-bold hover:bg-gray-800 shadow-lg">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL LIGHTBOX (POPUP GAMBAR) -->
+    <div id="lightbox" class="fixed inset-0 z-[200] bg-black/95 hidden flex-col items-center justify-center backdrop-blur-sm transition-opacity">
+        <!-- Close Button -->
+        <button onclick="closeLightbox()" class="absolute top-4 right-4 md:top-8 md:right-8 text-white hover:text-gRed z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all backdrop-blur-md">
+            <i class="ph-bold ph-x text-2xl"></i>
+        </button>
+        
+        <!-- Counter -->
+        <div id="lightbox-counter" class="absolute top-4 left-4 md:top-8 md:left-8 text-white font-bold bg-white/10 px-5 py-2.5 rounded-full z-50 backdrop-blur-md tracking-widest text-sm">
+            1 / 3
+        </div>
+
+        <!-- Navigation Left -->
+        <button onclick="changeLightbox(-1)" class="lightbox-nav absolute left-2 md:left-8 text-white hover:text-gBlue z-50 p-4 bg-white/5 hover:bg-white/20 rounded-full transition-all backdrop-blur-md">
+            <i class="ph-bold ph-caret-left text-3xl md:text-5xl"></i>
+        </button>
+
+        <!-- Main Image Area -->
+        <div class="relative w-full max-w-6xl max-h-[85vh] px-16 flex justify-center items-center">
+            <img id="lightbox-img" src="" class="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl select-none" alt="Preview Gambar">
+        </div>
+
+        <!-- Navigation Right -->
+        <button onclick="changeLightbox(1)" class="lightbox-nav absolute right-2 md:right-8 text-white hover:text-gBlue z-50 p-4 bg-white/5 hover:bg-white/20 rounded-full transition-all backdrop-blur-md">
+            <i class="ph-bold ph-caret-right text-3xl md:text-5xl"></i>
+        </button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT LOGIC                           -->
+    <!-- ========================================== -->
+    <script>
+        // MASUKKAN URL APPS SCRIPT ANDA YANG BARU DISINI
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznaQ912E-5PnlQStcsQn58V9sNORXVl0nRHSjWSa_fCIcYV4XjFIsVppmup4sYj3yAaQ/exec';
+        
+        let appData = { pelatihan: [], gpd: [], praktikBaik: [], profil: [] };
+        let currentAdminSheet = 'Profil'; // Default tab admin 
+        let currentGpdLevel = 'Level 1 Inisiator';
+        let isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+        let editId = null; // Penanda apakah mode Tambah (null) atau Edit (ID Data)
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAuthNavUI();
+            const hash = window.location.hash.replace('#', '');
+            navigateTo(hash || 'home', true);
+            fetchDataFromAppsScript();
+        });
+
+        function navigateTo(pageId, initialLoad = false) {
+            if (pageId === 'admin' && !isLoggedIn) pageId = 'login';
+            if (pageId === 'login' && isLoggedIn) pageId = 'admin';
+
+            if(!initialLoad) window.history.pushState(null, null, '#' + pageId);
+
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            const targetSection = document.getElementById('page-' + pageId);
+            if(targetSection) targetSection.classList.add('active');
+
+            // Reset dan Set Tab Aktif
+            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+            const activeNavBtns = document.querySelectorAll(`.nav-link[onclick*="'${pageId}'"]`);
+            activeNavBtns.forEach(btn => btn.classList.add('active'));
+
+            if(pageId === 'profil') renderProfilData();
+            if(pageId === 'pelatihan') renderPelatihan();
+            if(pageId === 'gpd') filterGPD(currentGpdLevel);
+            if(pageId === 'praktik') renderPraktikBaik();
+            if(pageId === 'admin') renderAdminTable();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('popstate', () => {
+            const hash = window.location.hash.replace('#', '');
+            if(hash) navigateTo(hash, true);
+        });
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function updateAuthNavUI() {
+            const btnDesktop = document.getElementById('nav-auth-btn');
+            const btnMobile = document.getElementById('mobile-nav-auth-btn');
+            if (isLoggedIn) {
+                btnDesktop.innerHTML = '<i class="ph-fill ph-gear text-xl text-gBlue"></i>';
+                btnMobile.innerHTML = 'Admin Dashboard';
+            } else {
+                btnDesktop.innerHTML = '<i class="ph-fill ph-gear text-xl"></i>';
+                btnMobile.innerHTML = 'Login Admin';
+            }
+        }
+
+        async function fetchDataFromAppsScript() {
+            showLoader();
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getAllData`);
+                const result = await response.json();
+                if (result.status === 'success') {
+                    appData.pelatihan = result.data.pelatihan || [];
+                    appData.gpd = result.data.gpd || [];
+                    appData.praktikBaik = result.data.praktikBaik || [];
+                    appData.profil = result.data.profil || [];
+                    
+                    renderProfilData(); // Update navbar dan home page
+                    
+                    const currentHash = window.location.hash.replace('#', '') || 'home';
+                    if(currentHash === 'pelatihan') renderPelatihan();
+                    if(currentHash === 'gpd') filterGPD(currentGpdLevel);
+                    if(currentHash === 'praktik') renderPraktikBaik();
+                    if(currentHash === 'admin') renderAdminTable();
+                }
+            } catch (error) {
+                console.error("Fetch Error:", error);
+            } finally {
+                hideLoader();
+            }
+        }
+
+        // --- Render Data Profil Secara Dinamis ---
+        function renderProfilData() {
+            if (appData.profil && appData.profil.length > 0) {
+                const p = appData.profil[0]; // Selalu ambil baris pertama
+                
+                // Halaman Home
+                if(document.getElementById('home-nama')) document.getElementById('home-nama').innerText = p.nama || 'Nama Anda';
+                if(document.getElementById('home-desc')) document.getElementById('home-desc').innerText = p.deskripsi || 'Deskripsi singkat mengenai Anda.';
+                if(document.getElementById('home-foto') && p.foto) document.getElementById('home-foto').src = p.foto;
+                
+                // Navbar
+                if(document.getElementById('nav-nama')) document.getElementById('nav-nama').innerText = p.nama || 'Nama Anda';
+                if(document.getElementById('nav-initials')) document.getElementById('nav-initials').innerText = p.nama ? p.nama.substring(0,2).toUpperCase() : 'HA';
+
+                // Halaman Profil
+                if(document.getElementById('prof-nama')) document.getElementById('prof-nama').innerText = p.nama || 'Nama Anda';
+                if(document.getElementById('prof-jabatan')) document.getElementById('prof-jabatan').innerText = p.jabatan || 'Jabatan Anda';
+                if(document.getElementById('prof-desc')) document.getElementById('prof-desc').innerText = p.deskripsi || 'Deskripsi singkat tentang Anda.';
+                if(document.getElementById('prof-email')) document.getElementById('prof-email').innerText = p.email || 'email@contoh.com';
+                if(document.getElementById('prof-telepon')) document.getElementById('prof-telepon').innerText = p.telepon || '-';
+                if(document.getElementById('prof-alamat')) document.getElementById('prof-alamat').innerText = p.alamat || '-';
+                if(document.getElementById('prof-foto') && p.foto) document.getElementById('prof-foto').src = p.foto;
+            }
+        }
+
+        function buildCarouselHTML(gambarString) {
+            if (!gambarString || typeof gambarString !== 'string') return '';
+            const images = gambarString.split(',').map(url => url.trim()).filter(url => url.length > 5);
+            if (images.length === 0) return '';
+            
+            // Menyimpan URL array secara aman untuk dikirim ke Lightbox
+            const safeImageString = images.join('||');
+            
+            let imgElements = '';
+            images.forEach((url, index) => {
+                // Menambahkan trigger onclick dan efek hover icon zoom
+                imgElements += `<div class="snap-center shrink-0 w-full h-48 bg-gray-100 rounded-2xl overflow-hidden relative cursor-pointer group" onclick="openLightbox('${encodeURIComponent(safeImageString)}', ${index})">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors z-10 flex items-center justify-center">
+                        <i class="ph-bold ph-arrows-out text-white text-3xl opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md transform group-hover:scale-110 duration-300"></i>
+                    </div>
+                    <img src="${url}" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&q=80'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>`;
+            });
+
+            const badge = images.length > 1 ? `<div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full z-20 flex items-center gap-1.5"><i class="ph-bold ph-images"></i> ${images.length} Foto (Geser)</div>` : '';
+            return `<div class="relative w-full mb-5 group">${badge}<div class="flex overflow-x-auto snap-x snap-mandatory gap-4 hide-scrollbar pb-2">${imgElements}</div></div>`;
+        }
+
+        function renderPelatihan() {
+            const container = document.getElementById('pelatihan-container');
+            const emptyState = document.getElementById('pelatihan-empty');
+            container.innerHTML = '';
+            if (appData.pelatihan.length === 0) { emptyState.classList.remove('hidden'); return; }
+            emptyState.classList.add('hidden');
+
+            appData.pelatihan.forEach((item) => {
+                const isNara = item.peran && item.peran.toLowerCase().includes('narasumber');
+                let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}); } catch(e){}
+                const carouselHTML = buildCarouselHTML(item.gambar);
+                container.innerHTML += `
+                    <div class="glass-panel p-6 rounded-3xl hover:-translate-y-2 transition-transform duration-300">
+                        ${carouselHTML}
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-3 py-1 text-xs font-black rounded-lg ${isNara ? 'bg-yellow-100 text-gYellow' : 'bg-blue-100 text-gBlue'}">${item.peran || 'Peserta'}</span>
+                        </div>
+                        <h3 class="font-bold text-dark text-xl leading-tight mb-4">${item.nama_pelatihan || 'Nama Pelatihan'}</h3>
+                        <div class="space-y-2 pt-4 border-t border-gray-200/50">
+                            <div class="flex items-center text-sm font-medium text-gray-600"><i class="ph-fill ph-calendar-blank mr-2 text-gray-400"></i> ${tgl}</div>
+                            <div class="flex items-center text-sm font-medium text-gray-600"><i class="ph-fill ph-buildings mr-2 text-gray-400"></i> ${item.penyelenggara || '-'}</div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterGPD(level) {
+            currentGpdLevel = level;
+            document.querySelectorAll('.gpd-tab').forEach(tab => {
+                tab.classList.remove('bg-dark', 'text-white');
+                tab.classList.add('bg-white', 'text-gray-600');
+            });
+            const activeId = level.includes('1') ? 'tab-inisiator' : (level.includes('2') ? 'tab-akselerator' : 'tab-inspirator');
+            const tab = document.getElementById(activeId);
+            if(tab) {
+                tab.classList.remove('bg-white', 'text-gray-600');
+                tab.classList.add('bg-dark', 'text-white');
+            }
+            renderGPD(level);
+        }
+
+        function renderGPD(levelFilter) {
+            const container = document.getElementById('gpd-container');
+            const emptyState = document.getElementById('gpd-empty');
+            container.innerHTML = '';
+            
+            const filtered = appData.gpd.filter(item => item.level && item.level.includes(levelFilter.split(' ')[1]));
+            if (filtered.length === 0) { emptyState.classList.remove('hidden'); return; }
+            emptyState.classList.add('hidden');
+
+            filtered.forEach((item) => {
+                let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}); } catch(e){}
+                const carouselHTML = buildCarouselHTML(item.gambar);
+                container.innerHTML += `
+                    <div class="glass-panel p-8 rounded-3xl flex flex-col md:flex-row gap-8">
+                        ${carouselHTML ? `<div class="md:w-1/2">${carouselHTML}</div>` : ''}
+                        <div class="${carouselHTML ? 'md:w-1/2' : 'w-full'} flex flex-col justify-center">
+                            <h3 class="font-black text-dark text-2xl mb-3">${item.kegiatan || 'Kegiatan GPD'}</h3>
+                            <div class="inline-flex px-3 py-1.5 bg-red-50 text-gRed rounded-lg text-sm font-bold mb-4 w-fit">
+                                <i class="ph-bold ph-calendar mr-2"></i> ${tgl}
+                            </div>
+                            <p class="text-gray-600 font-medium leading-relaxed">${item.deskripsi || 'Deskripsi kegiatan...'}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderPraktikBaik() {
+            const container = document.getElementById('praktik-container');
+            const emptyState = document.getElementById('praktik-empty');
+            container.innerHTML = '';
+            if (appData.praktikBaik.length === 0) { emptyState.classList.remove('hidden'); return; }
+            emptyState.classList.add('hidden');
+
+            appData.praktikBaik.forEach((item) => {
+                let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}); } catch(e){}
+                const carouselHTML = buildCarouselHTML(item.gambar);
+                let linkBtn = item.link_video ? `<a href="${item.link_video}" target="_blank" class="mt-6 w-full py-3 bg-yellow-50 hover:bg-gYellow text-gYellow hover:text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"><i class="ph-bold ph-link"></i> Link Video/Karya</a>` : '';
+                container.innerHTML += `
+                    <div class="glass-panel p-8 rounded-3xl flex flex-col justify-between">
+                        <div>
+                            ${carouselHTML}
+                            <div class="flex justify-between items-start mb-4 mt-2">
+                                <span class="text-xs font-bold text-gray-500 bg-white px-3 py-1 rounded-full shadow-sm">${tgl}</span>
+                            </div>
+                            <h3 class="font-black text-dark text-xl leading-snug mb-3">${item.judul || 'Judul Praktik Baik'}</h3>
+                            <p class="text-gray-600 font-medium leading-relaxed text-sm">${item.deskripsi || 'Deskripsi...'}</p>
+                        </div>
+                        ${linkBtn}
+                    </div>
+                `;
+            });
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const errorMsg = document.getElementById('login-error');
+            
+            showLoader();
+            try {
+                const res = await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'login', username: user, password: pass }) 
+                });
+                const result = await res.json();
+                if (result.status === 'success') {
+                    isLoggedIn = true; sessionStorage.setItem('isLoggedIn', 'true');
+                    errorMsg.classList.add('hidden');
+                    document.getElementById('username').value = ''; document.getElementById('password').value = '';
+                    updateAuthNavUI(); navigateTo('admin');
+                } else { 
+                    errorMsg.textContent = result.message || 'Username / Password salah!';
+                    errorMsg.classList.remove('hidden'); 
+                }
+            } catch (error) { 
+                alert("Gagal menghubungi server Apps Script.\n\nPastikan URL Web App sudah benar, dan aksesnya diatur ke 'Anyone' (Siapa saja)."); 
+            } finally { hideLoader(); }
+        }
+
+        function handleLogout() {
+            isLoggedIn = false; sessionStorage.removeItem('isLoggedIn');
+            updateAuthNavUI(); navigateTo('home');
+        }
+
+        function switchAdminTab(sheetName) {
+            currentAdminSheet = sheetName;
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('text-gBlue', 'border-gBlue', 'bg-white');
+                tab.classList.add('text-gray-500', 'border-transparent');
+            });
+            const active = document.getElementById('adm-tab-' + sheetName);
+            if(active) {
+                active.classList.remove('text-gray-500', 'border-transparent');
+                active.classList.add('text-gBlue', 'border-gBlue', 'bg-white');
+            }
+            document.getElementById('admin-table-title').textContent = `Tabel ${sheetName === 'PraktikBaik' ? 'Praktik Baik' : sheetName}`;
+            renderAdminTable();
+        }
+
+        // --- Render Table Admin dengan Fitur Edit & Hapus ---
+        function renderAdminTable() {
+            if (!isLoggedIn) return;
+            const thead = document.getElementById('admin-thead'); const tbody = document.getElementById('admin-tbody');
+            thead.innerHTML = ''; tbody.innerHTML = '';
+
+            let dataList = []; let headers = [];
+            
+            if (currentAdminSheet === 'Profil') { dataList = appData.profil; headers = ['Nama', 'Jabatan', 'Email', 'Telepon']; }
+            else if (currentAdminSheet === 'Pelatihan') { dataList = appData.pelatihan; headers = ['Nama', 'Peran', 'Tgl', 'Penyelenggara', 'Gambar']; }
+            else if (currentAdminSheet === 'GPD') { dataList = appData.gpd; headers = ['Level', 'Kegiatan', 'Tgl', 'Deskripsi', 'Gambar']; }
+            else if (currentAdminSheet === 'PraktikBaik') { dataList = appData.praktikBaik; headers = ['Judul', 'Tgl', 'Deskripsi', 'Link', 'Gambar']; }
+
+            let thHTML = ''; headers.forEach(h => { thHTML += `<th class="px-6 py-4">${h}</th>`; });
+            thead.innerHTML = thHTML + `<th class="px-6 py-4 text-right">Aksi</th>`;
+
+            if (dataList.length === 0) { tbody.innerHTML = `<tr><td colspan="${headers.length + 1}" class="px-6 py-8 text-center text-gray-500 font-bold">Data Kosong.</td></tr>`; return; }
+
+            dataList.forEach(item => {
+                let tr = '<tr class="hover:bg-gray-50/50 transition-colors">';
+                let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID'); } catch(e){}
+                let imgInd = item.gambar || item.foto ? `<span class="bg-green-100 text-gGreen px-2 py-1 rounded text-xs font-bold">Ada</span>` : `<span class="bg-gray-100 text-gray-400 px-2 py-1 rounded text-xs">Kosong</span>`;
+
+                if (currentAdminSheet === 'Profil') {
+                    tr += `<td class="px-6 py-4 text-sm font-bold text-dark">${item.nama||'-'}</td><td class="px-6 py-4 text-sm">${item.jabatan||'-'}</td><td class="px-6 py-4 text-sm">${item.email||'-'}</td><td class="px-6 py-4 text-sm">${item.telepon||'-'}</td>`;
+                } else if (currentAdminSheet === 'Pelatihan') {
+                    tr += `<td class="px-6 py-4 text-sm font-bold text-dark">${item.nama_pelatihan||'-'}</td><td class="px-6 py-4 text-sm">${item.peran||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm">${item.penyelenggara||'-'}</td><td class="px-6 py-4">${imgInd}</td>`;
+                } else if (currentAdminSheet === 'GPD') {
+                    tr += `<td class="px-6 py-4 text-sm font-bold text-dark whitespace-nowrap">${item.level||'-'}</td><td class="px-6 py-4 text-sm">${item.kegiatan||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm truncate max-w-[150px]">${item.deskripsi||'-'}</td><td class="px-6 py-4">${imgInd}</td>`;
+                } else if (currentAdminSheet === 'PraktikBaik') {
+                    tr += `<td class="px-6 py-4 text-sm font-bold text-dark">${item.judul||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm truncate max-w-[150px]">${item.deskripsi||'-'}</td><td class="px-6 py-4 text-sm">${item.link_video ? 'Ada Link' : '-'}</td><td class="px-6 py-4">${imgInd}</td>`;
+                }
+                
+                // Dua Tombol Aksi: Edit dan Hapus
+                tr += `<td class="px-6 py-4 text-right whitespace-nowrap">
+                        <button onclick="openEditModal('${item.id}')" class="text-gBlue hover:bg-blue-50 p-2 rounded-lg mr-1"><i class="ph-bold ph-pencil-simple text-lg"></i></button>
+                        <button onclick="deleteData('${item.id}')" class="text-gRed hover:bg-red-50 p-2 rounded-lg"><i class="ph-bold ph-trash text-lg"></i></button>
+                       </td></tr>`;
+                tbody.innerHTML += tr;
+            });
+        }
+
+        // --- Fungsi Modal Tambah / Edit ---
+        function openAddModal() {
+            editId = null; // Menandakan bahwa ini adalah penambahan data baru
+            document.getElementById('modal-title-text').innerText = 'Tambah Data Baru';
+            buildFormFields();
+            
+            const modal = document.getElementById('addModal'); const content = document.getElementById('addModalContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => { content.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        function openEditModal(id) {
+            editId = id; // Set editId
+            document.getElementById('modal-title-text').innerText = 'Edit Data';
+            buildFormFields();
+            
+            // Cari item yang sesuai untuk diisi nilainya
+            let item;
+            if (currentAdminSheet === 'Profil') item = appData.profil.find(i => i.id == id);
+            else if (currentAdminSheet === 'Pelatihan') item = appData.pelatihan.find(i => i.id == id);
+            else if (currentAdminSheet === 'GPD') item = appData.gpd.find(i => i.id == id);
+            else if (currentAdminSheet === 'PraktikBaik') item = appData.praktikBaik.find(i => i.id == id);
+
+            if(!item) return;
+
+            // Masukkan data ke dalam form (berikan sedikit jeda agar form termuat di DOM)
+            setTimeout(() => {
+                if (currentAdminSheet === 'Profil') {
+                    document.getElementById('add-f1').value = item.nama || '';
+                    document.getElementById('add-f2').value = item.jabatan || '';
+                    document.getElementById('add-f3').value = item.deskripsi || '';
+                    document.getElementById('add-f4').value = item.email || '';
+                    document.getElementById('add-f5').value = item.telepon || '';
+                    document.getElementById('add-f6').value = item.alamat || '';
+                    document.getElementById('add-f7').value = item.foto || '';
+                } else if (currentAdminSheet === 'Pelatihan') {
+                    document.getElementById('add-f1').value = item.nama_pelatihan || '';
+                    document.getElementById('add-f2').value = item.peran || 'Peserta';
+                    document.getElementById('add-f3').value = item.tanggal ? new Date(item.tanggal).toISOString().split('T')[0] : '';
+                    document.getElementById('add-f4').value = item.penyelenggara || '';
+                    document.getElementById('add-f5').value = item.gambar || '';
+                } else if (currentAdminSheet === 'GPD') {
+                    document.getElementById('add-f1').value = item.level || 'Level 1 Inisiator';
+                    document.getElementById('add-f2').value = item.kegiatan || '';
+                    document.getElementById('add-f3').value = item.tanggal ? new Date(item.tanggal).toISOString().split('T')[0] : '';
+                    document.getElementById('add-f4').value = item.deskripsi || '';
+                    document.getElementById('add-f5').value = item.gambar || '';
+                } else if (currentAdminSheet === 'PraktikBaik') {
+                    document.getElementById('add-f1').value = item.judul || '';
+                    document.getElementById('add-f2').value = item.tanggal ? new Date(item.tanggal).toISOString().split('T')[0] : '';
+                    document.getElementById('add-f3').value = item.deskripsi || '';
+                    document.getElementById('add-f4').value = item.link_video || '';
+                    document.getElementById('add-f5').value = item.gambar || '';
+                }
+            }, 50);
+
+            const modal = document.getElementById('addModal'); const content = document.getElementById('addModalContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => { content.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        function buildFormFields() {
+            const formFields = document.getElementById('dynamic-form-fields');
+            const inCls = "w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-gBlue font-medium";
+            const lblCls = "block text-sm font-bold text-gray-700 ml-1";
+            const imgField = `<div><label class="${lblCls}">URL Gambar (Koma jika banyak)</label><textarea id="add-f5" rows="2" class="${inCls}" placeholder="https://drive..."></textarea></div>`;
+
+            let html = '';
+            if (currentAdminSheet === 'Profil') {
+                html = `<div><label class="${lblCls}">Nama Lengkap</label><input type="text" id="add-f1" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Jabatan / Instansi</label><input type="text" id="add-f2" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Tentang Saya (Deskripsi)</label><textarea id="add-f3" rows="3" required class="${inCls}"></textarea></div>
+                        <div><label class="${lblCls}">Email</label><input type="email" id="add-f4" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">No. Telepon / WhatsApp</label><input type="text" id="add-f5" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Alamat</label><input type="text" id="add-f6" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">URL Foto Profil</label><input type="url" id="add-f7" required class="${inCls}" placeholder="https://drive..."></div>`;
+            } else if (currentAdminSheet === 'Pelatihan') {
+                html = `<div><label class="${lblCls}">Nama Pelatihan</label><input type="text" id="add-f1" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Peran</label><select id="add-f2" required class="${inCls}"><option value="Peserta">Peserta</option><option value="Narasumber">Narasumber</option></select></div>
+                        <div><label class="${lblCls}">Tanggal</label><input type="date" id="add-f3" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Penyelenggara</label><input type="text" id="add-f4" required class="${inCls}"></div>
+                        ${imgField}`;
+            } else if (currentAdminSheet === 'GPD') {
+                html = `<div><label class="${lblCls}">Level</label><select id="add-f1" required class="${inCls}"><option value="Level 1 Inisiator">Level 1: Inisiator</option><option value="Level 2 Akselerator">Level 2: Akselerator</option><option value="Level 3 Inspirator">Level 3: Inspirator</option></select></div>
+                        <div><label class="${lblCls}">Nama Kegiatan</label><input type="text" id="add-f2" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Tanggal</label><input type="date" id="add-f3" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Deskripsi</label><textarea id="add-f4" rows="2" required class="${inCls}"></textarea></div>
+                        ${imgField}`;
+            } else if (currentAdminSheet === 'PraktikBaik') {
+                html = `<div><label class="${lblCls}">Judul Inovasi</label><input type="text" id="add-f1" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Tanggal</label><input type="date" id="add-f2" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Deskripsi</label><textarea id="add-f3" rows="2" required class="${inCls}"></textarea></div>
+                        <div><label class="${lblCls}">Link Video/Materi</label><input type="url" id="add-f4" class="${inCls}"></div>
+                        ${imgField}`;
+            }
+            formFields.innerHTML = html;
+        }
+
+        function closeAddModal() {
+            const modal = document.getElementById('addModal'); const content = document.getElementById('addModalContent');
+            content.classList.add('scale-95', 'opacity-0'); setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+
+        async function submitAddData(e) {
+            if(e) e.preventDefault();
+            
+            let rowData = [];
+            if (currentAdminSheet === 'Profil') {
+                rowData = [
+                    document.getElementById('add-f1')?.value || '', document.getElementById('add-f2')?.value || '',
+                    document.getElementById('add-f3')?.value || '', document.getElementById('add-f4')?.value || '',
+                    document.getElementById('add-f5')?.value || '', document.getElementById('add-f6')?.value || '',
+                    document.getElementById('add-f7')?.value || ''
+                ];
+            } else {
+                rowData = [
+                    document.getElementById('add-f1')?.value || '', document.getElementById('add-f2')?.value || '',
+                    document.getElementById('add-f3')?.value || '', document.getElementById('add-f4')?.value || '',
+                    document.getElementById('add-f5')?.value || '' 
+                ];
+            }
+
+            closeAddModal(); showLoader();
+            try {
+                // Tentukan aksi: apakah menambah ('add') atau mengubah ('edit')
+                const payload = editId ? 
+                    { action: 'edit', sheet: currentAdminSheet, id: editId, data: rowData } : 
+                    { action: 'add', sheet: currentAdminSheet, data: rowData };
+
+                const res = await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload) 
+                });
+                const result = await res.json();
+                if(result.status === 'success') { await fetchDataFromAppsScript(); } else { alert('Gagal: ' + result.message); }
+            } catch (error) { alert('Terjadi kesalahan jaringan: ' + error.message); } finally { hideLoader(); }
+        }
+
+        async function deleteData(id) {
+            if(!confirm('Hapus data ini secara permanen?')) return;
+            showLoader();
+            try {
+                const res = await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'delete', sheet: currentAdminSheet, id: id }) 
+                });
+                const result = await res.json();
+                if(result.status === 'success') { await fetchDataFromAppsScript(); } else { alert('Gagal menghapus.'); }
+            } catch (error) { alert('Terjadi kesalahan: ' + error.message); } finally { hideLoader(); }
+        }
+
+        function showLoader() { const l = document.getElementById('loadingOverlay'); l.classList.remove('hidden'); }
+        function hideLoader() { const l = document.getElementById('loadingOverlay'); l.classList.add('hidden'); }
+
+        // --- FITUR LIGHTBOX (POPUP GAMBAR) ---
+        let lightboxImages = [];
+        let lightboxIndex = 0;
+
+        function openLightbox(encodedImages, index) {
+            lightboxImages = decodeURIComponent(encodedImages).split('||');
+            lightboxIndex = index;
+            updateLightboxView();
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Kunci scroll layar utama
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.add('hidden');
+            lightbox.classList.remove('flex');
+            document.body.style.overflow = ''; // Buka kembali scroll
+        }
+
+        function changeLightbox(direction) {
+            lightboxIndex += direction;
+            if (lightboxIndex < 0) lightboxIndex = lightboxImages.length - 1;
+            if (lightboxIndex >= lightboxImages.length) lightboxIndex = 0;
+            updateLightboxView();
+        }
+
+        function updateLightboxView() {
+            document.getElementById('lightbox-img').src = lightboxImages[lightboxIndex];
+            document.getElementById('lightbox-counter').innerText = `${lightboxIndex + 1} / ${lightboxImages.length}`;
+            
+            // Sembunyikan panah jika hanya ada 1 gambar
+            const navBtns = document.querySelectorAll('.lightbox-nav');
+            if (lightboxImages.length <= 1) {
+                navBtns.forEach(btn => btn.classList.add('hidden'));
+            } else {
+                navBtns.forEach(btn => btn.classList.remove('hidden'));
+            }
+        }
+
+        // Navigasi dengan Tombol Panah & Escape di Keyboard
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox.classList.contains('hidden')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') changeLightbox(-1);
+                if (e.key === 'ArrowRight') changeLightbox(1);
+            }
+        });
+
+        // Fitur Geser (Swipe) untuk Smartphone
+        let touchStartX = 0;
+        let touchEndX = 0;
+        document.getElementById('lightbox').addEventListener('touchstart', e => { 
+            touchStartX = e.changedTouches[0].screenX; 
+        }, {passive: true});
+        document.getElementById('lightbox').addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchEndX < touchStartX - 50) changeLightbox(1); // Swipe Kiri (Gambar Selanjutnya)
+            if (touchEndX > touchStartX + 50) changeLightbox(-1); // Swipe Kanan (Gambar Sebelumnya)
+        }, {passive: true});
+
+    </script>
+</body>
+</html>
