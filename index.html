@@ -43,7 +43,6 @@
             background-attachment: fixed;
         }
         
-        /* Highlight Menu Aktif dengan Background Biru Muda */
         .nav-link.active { 
             color: #2D68F8 !important; 
             font-weight: 800 !important; 
@@ -58,13 +57,8 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Fix Bug Spasi Kosong: Paksa sembunyikan section yang tidak aktif */
-        .page-section:not(.active) { 
-            display: none !important; 
-        }
-        .page-section.active { 
-            animation: slideUp 0.5s ease-out forwards; 
-        }
+        .page-section:not(.active) { display: none !important; }
+        .page-section.active { animation: slideUp 0.5s ease-out forwards; }
         
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -135,7 +129,7 @@
         <button id="mobile-nav-auth-btn" onclick="navigateTo('login'); toggleMobileMenu()" class="nav-link px-4 w-full text-xl font-bold text-white bg-dark rounded-xl py-4 text-center mt-4">Login Admin</button>
     </div>
 
-    <!-- MAIN CONTENT (Jarak Atas Diperbaiki dan Diseragamkan) -->
+    <!-- MAIN CONTENT -->
     <main class="flex-grow pt-28 pb-16 px-4">
 
         <!-- HALAMAN 1: HOME -->
@@ -195,7 +189,7 @@
                     
                     <!-- Badge 2: Guru Pejuang Digital -->
                     <div class="absolute -bottom-6 right-0 lg:-right-6 z-20 bg-white px-5 py-3 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-3" style="animation: bounce 3.5s infinite; animation-delay: 1s;">
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center overflow-hidden">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center overflow-hidden p-1">
                             <img src="https://raw.githubusercontent.com/herisheroes/cv-heris/refs/heads/main/Logo%20Utama.png" alt="Logo Guru Pejuang Digital" class="w-full h-full object-contain">
                         </div>
                         <div class="hidden sm:block">
@@ -227,7 +221,7 @@
                 <div class="lg:col-span-1 space-y-6">
                     <div class="glass-panel p-8 rounded-3xl shadow-sm">
                         <div class="w-32 h-32 rounded-full overflow-hidden mx-auto mb-6 border-4 border-white shadow-lg bg-gray-100 flex items-center justify-center relative">
-                            <!-- Placeholder Icon (Muncul Jika Tidak Ada Foto) -->
+                            <!-- Placeholder Icon -->
                             <i id="prof-foto-placeholder" class="ph-fill ph-user text-6xl text-gray-300 absolute"></i>
                             <img id="prof-foto" src="" alt="Profile" class="w-full h-full object-cover relative z-10 hidden">
                         </div>
@@ -241,27 +235,16 @@
                         </div>
                     </div>
 
-                    <!-- Skills Statis -->
+                    <!-- Skills Dinamis -->
                     <div class="glass-panel p-8 rounded-3xl shadow-sm">
                         <h4 class="font-bold text-dark text-lg mb-4 flex items-center gap-2"><i class="ph-fill ph-star text-gYellow"></i> Skill & Kemampuan</h4>
-                        <div class="space-y-3">
-                            <div>
-                                <div class="flex justify-between text-xs font-bold mb-1"><span class="text-gray-700">Google Workspace for Education</span><span class="text-gBlue">95%</span></div>
-                                <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-gBlue h-2 rounded-full" style="width: 95%"></div></div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-xs font-bold mb-1"><span class="text-gray-700">Desain Media Ajar</span><span class="text-gBlue">85%</span></div>
-                                <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-gBlue h-2 rounded-full" style="width: 85%"></div></div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-xs font-bold mb-1"><span class="text-gray-700">Public Speaking</span><span class="text-gBlue">90%</span></div>
-                                <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-gBlue h-2 rounded-full" style="width: 90%"></div></div>
-                            </div>
+                        <div class="space-y-3" id="prof-skill-container">
+                            <p class="text-sm text-gray-400 italic">Belum ada data skill.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Kolom Kanan: Timeline Statis -->
+                <!-- Kolom Kanan: Timeline Dinamis -->
                 <div class="lg:col-span-2 space-y-8">
                     <!-- Deskripsi Diri -->
                     <div class="glass-panel p-8 rounded-3xl shadow-sm">
@@ -269,20 +252,35 @@
                         <p class="text-gray-600 font-medium leading-relaxed" id="prof-desc">Tuliskan deskripsi singkat mengenai pengalaman dan tujuan karir Anda di sini melalui panel Admin.</p>
                     </div>
 
-                    <!-- Pendidikan -->
+                    <!-- Pendidikan Dinamis -->
                     <div class="glass-panel p-8 rounded-3xl shadow-sm">
                         <h4 class="font-bold text-dark text-xl mb-6 flex items-center gap-3"><i class="ph-fill ph-graduation-cap text-3xl text-gBlue"></i> Riwayat Pendidikan</h4>
-                        <div class="relative border-l-2 border-gray-200 ml-3 space-y-6 pb-2">
-                            <div class="relative pl-6">
-                                <span class="absolute -left-[9px] top-1 w-4 h-4 bg-gBlue rounded-full border-4 border-white"></span>
-                                <h5 class="font-bold text-lg text-dark">S1 Pendidikan Guru Sekolah Dasar (PGSD)</h5>
-                                <p class="text-sm font-semibold text-gBlue mb-1">Universitas <span class="text-gray-400 font-normal">| Lulus 2019</span></p>
-                            </div>
-                            <div class="relative pl-6">
-                                <span class="absolute -left-[9px] top-1 w-4 h-4 bg-gray-300 rounded-full border-4 border-white"></span>
-                                <h5 class="font-bold text-lg text-dark">Pendidikan Profesi Guru (PPG)</h5>
-                                <p class="text-sm font-semibold text-gBlue mb-1">Kemendikdasmen <span class="text-gray-400 font-normal">| Tersertifikasi</span></p>
-                            </div>
+                        <div class="relative border-l-2 border-gray-200 ml-3 space-y-6 pb-2" id="prof-pendidikan-container">
+                            <p class="text-sm text-gray-400 italic ml-4">Belum ada data pendidikan.</p>
+                        </div>
+                    </div>
+
+                    <!-- Pengalaman Organisasi Dinamis -->
+                    <div class="glass-panel p-8 rounded-3xl shadow-sm">
+                        <h4 class="font-bold text-dark text-xl mb-6 flex items-center gap-3"><i class="ph-fill ph-users-three text-3xl text-gGreen"></i> Pengalaman Organisasi</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="prof-organisasi-container">
+                            <p class="text-sm text-gray-400 italic">Belum ada data organisasi.</p>
+                        </div>
+                    </div>
+
+                    <!-- Pengalaman Narasumber Dinamis -->
+                    <div class="glass-panel p-8 rounded-3xl shadow-sm">
+                        <h4 class="font-bold text-dark text-xl mb-6 flex items-center gap-3"><i class="ph-fill ph-microphone-stage text-3xl text-gRed"></i> Pengalaman Narasumber</h4>
+                        <div class="space-y-2" id="prof-narasumber-container">
+                            <p class="text-sm text-gray-400 italic">Belum ada data pengalaman narasumber.</p>
+                        </div>
+                    </div>
+
+                    <!-- Penghargaan Dinamis -->
+                    <div class="glass-panel p-8 rounded-3xl shadow-sm">
+                        <h4 class="font-bold text-dark text-xl mb-6 flex items-center gap-3"><i class="ph-fill ph-trophy text-3xl text-gYellow"></i> Penghargaan</h4>
+                        <div class="space-y-2" id="prof-penghargaan-container">
+                            <p class="text-sm text-gray-400 italic">Belum ada data penghargaan.</p>
                         </div>
                     </div>
                 </div>
@@ -359,40 +357,50 @@
             </div>
         </section>
 
-        <!-- HALAMAN 7: ADMIN DASHBOARD (Ditambah Menu Profil dan Edit) -->
-        <section id="page-admin" class="page-section max-w-6xl mx-auto">
-            <div class="bg-dark rounded-3xl p-8 flex justify-between items-center shadow-xl mb-8">
-                <div class="text-white">
+        <!-- HALAMAN 7: ADMIN DASHBOARD -->
+        <section id="page-admin" class="page-section max-w-7xl mx-auto">
+            <div class="bg-dark rounded-3xl p-8 flex flex-col md:flex-row gap-4 justify-between items-center shadow-xl mb-8">
+                <div class="text-white text-center md:text-left">
                     <h2 class="text-2xl font-black">Admin Workspace</h2>
-                    <p class="text-gray-400 text-sm mt-1">Kelola data spreadsheet secara real-time.</p>
+                    <p class="text-gray-400 text-sm mt-1">Kelola seluruh data portofolio web secara real-time.</p>
                 </div>
-                <button onclick="handleLogout()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all">
+                <button onclick="handleLogout()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all shrink-0">
                     <i class="ph-bold ph-sign-out"></i> Keluar
                 </button>
             </div>
 
-            <div class="glass-panel rounded-3xl overflow-hidden shadow-sm border border-white">
-                <div class="flex border-b border-gray-200 bg-white/50 overflow-x-auto hide-scrollbar">
-                    <button onclick="switchAdminTab('Profil')" id="adm-tab-Profil" class="admin-tab flex-1 py-4 px-6 font-bold text-gBlue border-b-2 border-gBlue bg-white">Profil & Biodata</button>
-                    <button onclick="switchAdminTab('Pelatihan')" id="adm-tab-Pelatihan" class="admin-tab flex-1 py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 border-transparent">Data Pelatihan</button>
-                    <button onclick="switchAdminTab('GPD')" id="adm-tab-GPD" class="admin-tab flex-1 py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 border-transparent">Data GPD</button>
-                    <button onclick="switchAdminTab('PraktikBaik')" id="adm-tab-PraktikBaik" class="admin-tab flex-1 py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 border-transparent">Praktik Baik</button>
+            <div class="glass-panel rounded-3xl overflow-hidden shadow-sm border border-white flex flex-col xl:flex-row">
+                <!-- Sidebar Menu Admin -->
+                <div class="w-full xl:w-64 border-b xl:border-b-0 xl:border-r border-gray-200 bg-white/50 flex flex-row xl:flex-col overflow-x-auto hide-scrollbar shrink-0">
+                    <div class="p-4 font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-gray-100 hidden xl:block">Menu Profil</div>
+                    <button onclick="switchAdminTab('Profil')" id="adm-tab-Profil" class="admin-tab w-full py-4 px-6 font-bold text-gBlue bg-white border-b-2 xl:border-b-0 xl:border-l-4 border-gBlue text-left whitespace-nowrap"><i class="ph-bold ph-user mr-2"></i> Biodata</button>
+                    <button onclick="switchAdminTab('Pendidikan')" id="adm-tab-Pendidikan" class="admin-tab w-full py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 xl:border-b-0 xl:border-l-4 border-transparent text-left whitespace-nowrap"><i class="ph-bold ph-graduation-cap mr-2"></i> Pendidikan</button>
+                    <button onclick="switchAdminTab('Organisasi')" id="adm-tab-Organisasi" class="admin-tab w-full py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 xl:border-b-0 xl:border-l-4 border-transparent text-left whitespace-nowrap"><i class="ph-bold ph-users-three mr-2"></i> Organisasi</button>
+                    <button onclick="switchAdminTab('Narasumber')" id="adm-tab-Narasumber" class="admin-tab w-full py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 xl:border-b-0 xl:border-l-4 border-transparent text-left whitespace-nowrap"><i class="ph-bold ph-microphone-stage mr-2"></i> Narasumber</button>
+                    <button onclick="switchAdminTab('Penghargaan')" id="adm-tab-Penghargaan" class="admin-tab w-full py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 xl:border-b-0 xl:border-l-4 border-transparent text-left whitespace-nowrap"><i class="ph-bold ph-trophy mr-2"></i> Penghargaan</button>
+                    <button onclick="switchAdminTab('Skill')" id="adm-tab-Skill" class="admin-tab w-full py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 xl:border-b-0 xl:border-l-4 border-transparent text-left whitespace-nowrap"><i class="ph-bold ph-star mr-2"></i> Skill</button>
+                    
+                    <div class="p-4 font-bold text-xs text-gray-400 uppercase tracking-widest border-b border-t border-gray-100 hidden xl:block mt-2">Menu Portofolio</div>
+                    <button onclick="switchAdminTab('Pelatihan')" id="adm-tab-Pelatihan" class="admin-tab w-full py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 xl:border-b-0 xl:border-l-4 border-transparent text-left whitespace-nowrap"><i class="ph-bold ph-book-open mr-2"></i> Pelatihan</button>
+                    <button onclick="switchAdminTab('GPD')" id="adm-tab-GPD" class="admin-tab w-full py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 xl:border-b-0 xl:border-l-4 border-transparent text-left whitespace-nowrap"><i class="ph-bold ph-medal mr-2"></i> GPD</button>
+                    <button onclick="switchAdminTab('PraktikBaik')" id="adm-tab-PraktikBaik" class="admin-tab w-full py-4 px-6 font-bold text-gray-500 hover:text-dark border-b-2 xl:border-b-0 xl:border-l-4 border-transparent text-left whitespace-nowrap"><i class="ph-bold ph-lightbulb mr-2"></i> Praktik Baik</button>
                 </div>
 
-                <div class="p-6 md:p-8">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 id="admin-table-title" class="text-xl font-bold text-dark">Tabel Profil</h3>
-                        <button onclick="openAddModal()" class="bg-gBlue hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-md">
+                <!-- Konten Table Admin -->
+                <div class="p-6 md:p-8 flex-grow w-full overflow-hidden">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                        <h3 id="admin-table-title" class="text-xl font-bold text-dark">Data Biodata</h3>
+                        <button onclick="openAddModal()" class="bg-gBlue hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-md shrink-0">
                             <i class="ph-bold ph-plus"></i> Tambah Data
                         </button>
                     </div>
 
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto bg-white rounded-2xl border border-gray-100 shadow-sm">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50/50">
+                            <thead class="bg-gray-50">
                                 <tr id="admin-thead" class="text-left text-xs font-black text-gray-500 uppercase tracking-wider"></tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100 bg-white/50" id="admin-tbody"></tbody>
+                            <tbody class="divide-y divide-gray-100" id="admin-tbody"></tbody>
                         </table>
                     </div>
                 </div>
@@ -434,44 +442,27 @@
 
     <!-- MODAL LIGHTBOX (POPUP GAMBAR) -->
     <div id="lightbox" class="fixed inset-0 z-[200] bg-black/95 hidden flex-col items-center justify-center backdrop-blur-sm transition-opacity">
-        <!-- Close Button -->
-        <button onclick="closeLightbox()" class="absolute top-4 right-4 md:top-8 md:right-8 text-white hover:text-gRed z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all backdrop-blur-md">
-            <i class="ph-bold ph-x text-2xl"></i>
-        </button>
-        
-        <!-- Counter -->
-        <div id="lightbox-counter" class="absolute top-4 left-4 md:top-8 md:left-8 text-white font-bold bg-white/10 px-5 py-2.5 rounded-full z-50 backdrop-blur-md tracking-widest text-sm">
-            1 / 3
-        </div>
-
-        <!-- Navigation Left -->
-        <button onclick="changeLightbox(-1)" class="lightbox-nav absolute left-2 md:left-8 text-white hover:text-gBlue z-50 p-4 bg-white/5 hover:bg-white/20 rounded-full transition-all backdrop-blur-md">
-            <i class="ph-bold ph-caret-left text-3xl md:text-5xl"></i>
-        </button>
-
-        <!-- Main Image Area -->
+        <button onclick="closeLightbox()" class="absolute top-4 right-4 md:top-8 md:right-8 text-white hover:text-gRed z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all backdrop-blur-md"><i class="ph-bold ph-x text-2xl"></i></button>
+        <div id="lightbox-counter" class="absolute top-4 left-4 md:top-8 md:left-8 text-white font-bold bg-white/10 px-5 py-2.5 rounded-full z-50 backdrop-blur-md tracking-widest text-sm">1 / 3</div>
+        <button onclick="changeLightbox(-1)" class="lightbox-nav absolute left-2 md:left-8 text-white hover:text-gBlue z-50 p-4 bg-white/5 hover:bg-white/20 rounded-full transition-all backdrop-blur-md"><i class="ph-bold ph-caret-left text-3xl md:text-5xl"></i></button>
         <div class="relative w-full max-w-6xl max-h-[85vh] px-16 flex justify-center items-center">
             <img id="lightbox-img" src="" class="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl select-none" alt="Preview Gambar">
         </div>
-
-        <!-- Navigation Right -->
-        <button onclick="changeLightbox(1)" class="lightbox-nav absolute right-2 md:right-8 text-white hover:text-gBlue z-50 p-4 bg-white/5 hover:bg-white/20 rounded-full transition-all backdrop-blur-md">
-            <i class="ph-bold ph-caret-right text-3xl md:text-5xl"></i>
-        </button>
+        <button onclick="changeLightbox(1)" class="lightbox-nav absolute right-2 md:right-8 text-white hover:text-gBlue z-50 p-4 bg-white/5 hover:bg-white/20 rounded-full transition-all backdrop-blur-md"><i class="ph-bold ph-caret-right text-3xl md:text-5xl"></i></button>
     </div>
 
     <!-- ========================================== -->
     <!-- JAVASCRIPT LOGIC                           -->
     <!-- ========================================== -->
     <script>
-        // MASUKKAN URL APPS SCRIPT ANDA YANG BARU DISINI
+        // MASUKKAN URL APPS SCRIPT ANDA DISINI (Akhiri dengan /exec)
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznaQ912E-5PnlQStcsQn58V9sNORXVl0nRHSjWSa_fCIcYV4XjFIsVppmup4sYj3yAaQ/exec';
         
-        let appData = { pelatihan: [], gpd: [], praktikBaik: [], profil: [] };
-        let currentAdminSheet = 'Profil'; // Default tab admin 
+        let appData = { pelatihan: [], gpd: [], praktikBaik: [], profil: [], pendidikan: [], organisasi: [], narasumber: [], penghargaan: [], skill: [] };
+        let currentAdminSheet = 'Profil'; 
         let currentGpdLevel = 'Level 1 Inisiator';
         let isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
-        let editId = null; // Penanda apakah mode Tambah (null) atau Edit (ID Data)
+        let editId = null; 
 
         document.addEventListener('DOMContentLoaded', () => {
             updateAuthNavUI();
@@ -490,7 +481,6 @@
             const targetSection = document.getElementById('page-' + pageId);
             if(targetSection) targetSection.classList.add('active');
 
-            // Reset dan Set Tab Aktif
             document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
             const activeNavBtns = document.querySelectorAll(`.nav-link[onclick*="'${pageId}'"]`);
             activeNavBtns.forEach(btn => btn.classList.add('active'));
@@ -509,9 +499,7 @@
             if(hash) navigateTo(hash, true);
         });
 
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        }
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
 
         function updateAuthNavUI() {
             const btnDesktop = document.getElementById('nav-auth-btn');
@@ -535,84 +523,150 @@
                     appData.gpd = result.data.gpd || [];
                     appData.praktikBaik = result.data.praktikBaik || [];
                     appData.profil = result.data.profil || [];
+                    appData.pendidikan = result.data.pendidikan || [];
+                    appData.organisasi = result.data.organisasi || [];
+                    appData.narasumber = result.data.narasumber || [];
+                    appData.penghargaan = result.data.penghargaan || [];
+                    appData.skill = result.data.skill || [];
                     
-                    renderProfilData(); // Update navbar dan home page
-                    
+                    renderProfilData(); 
                     const currentHash = window.location.hash.replace('#', '') || 'home';
                     if(currentHash === 'pelatihan') renderPelatihan();
                     if(currentHash === 'gpd') filterGPD(currentGpdLevel);
                     if(currentHash === 'praktik') renderPraktikBaik();
                     if(currentHash === 'admin') renderAdminTable();
                 }
-            } catch (error) {
-                console.error("Fetch Error:", error);
-            } finally {
-                hideLoader();
-            }
+            } catch (error) { console.error("Fetch Error:", error); } finally { hideLoader(); }
         }
 
-        // --- Render Data Profil Secara Dinamis ---
+        // --- Render Data Profil Terlengkap ---
         function renderProfilData() {
+            // 1. Data Biodata Dasar
             if (appData.profil && appData.profil.length > 0) {
-                const p = appData.profil[0]; // Selalu ambil baris pertama
-                
-                // Halaman Home
+                const p = appData.profil[0];
                 if(document.getElementById('home-nama')) document.getElementById('home-nama').innerText = p.nama || 'Nama Anda';
                 if(document.getElementById('home-desc')) document.getElementById('home-desc').innerText = p.deskripsi || 'Deskripsi singkat mengenai Anda.';
                 
-                // Handle Foto Home
                 if(p.foto && p.foto.trim() !== '') {
-                    if(document.getElementById('home-foto')) {
-                        document.getElementById('home-foto').src = p.foto;
-                        document.getElementById('home-foto').classList.remove('hidden');
-                        if(document.getElementById('home-foto-placeholder')) document.getElementById('home-foto-placeholder').classList.add('hidden');
-                    }
+                    if(document.getElementById('home-foto')) { document.getElementById('home-foto').src = p.foto; document.getElementById('home-foto').classList.remove('hidden'); if(document.getElementById('home-foto-placeholder')) document.getElementById('home-foto-placeholder').classList.add('hidden'); }
+                    if(document.getElementById('prof-foto')) { document.getElementById('prof-foto').src = p.foto; document.getElementById('prof-foto').classList.remove('hidden'); if(document.getElementById('prof-foto-placeholder')) document.getElementById('prof-foto-placeholder').classList.add('hidden'); }
                 } else {
-                    if(document.getElementById('home-foto')) {
-                        document.getElementById('home-foto').classList.add('hidden');
-                        if(document.getElementById('home-foto-placeholder')) document.getElementById('home-foto-placeholder').classList.remove('hidden');
-                    }
+                    if(document.getElementById('home-foto')) { document.getElementById('home-foto').classList.add('hidden'); if(document.getElementById('home-foto-placeholder')) document.getElementById('home-foto-placeholder').classList.remove('hidden'); }
+                    if(document.getElementById('prof-foto')) { document.getElementById('prof-foto').classList.add('hidden'); if(document.getElementById('prof-foto-placeholder')) document.getElementById('prof-foto-placeholder').classList.remove('hidden'); }
                 }
                 
-                // Navbar
                 if(document.getElementById('nav-nama')) document.getElementById('nav-nama').innerText = p.nama || 'Nama Anda';
                 if(document.getElementById('nav-initials')) document.getElementById('nav-initials').innerText = p.nama ? p.nama.substring(0,2).toUpperCase() : 'HA';
-
-                // Halaman Profil
                 if(document.getElementById('prof-nama')) document.getElementById('prof-nama').innerText = p.nama || 'Nama Anda';
                 if(document.getElementById('prof-jabatan')) document.getElementById('prof-jabatan').innerText = p.jabatan || 'Jabatan Anda';
                 if(document.getElementById('prof-desc')) document.getElementById('prof-desc').innerText = p.deskripsi || 'Deskripsi singkat tentang Anda.';
                 if(document.getElementById('prof-email')) document.getElementById('prof-email').innerText = p.email || 'email@contoh.com';
                 if(document.getElementById('prof-telepon')) document.getElementById('prof-telepon').innerText = p.telepon || '-';
                 if(document.getElementById('prof-alamat')) document.getElementById('prof-alamat').innerText = p.alamat || '-';
-                
-                // Handle Foto Profil
-                if(p.foto && p.foto.trim() !== '') {
-                    if(document.getElementById('prof-foto')) {
-                        document.getElementById('prof-foto').src = p.foto;
-                        document.getElementById('prof-foto').classList.remove('hidden');
-                        if(document.getElementById('prof-foto-placeholder')) document.getElementById('prof-foto-placeholder').classList.add('hidden');
-                    }
-                } else {
-                    if(document.getElementById('prof-foto')) {
-                        document.getElementById('prof-foto').classList.add('hidden');
-                        if(document.getElementById('prof-foto-placeholder')) document.getElementById('prof-foto-placeholder').classList.remove('hidden');
-                    }
+            }
+
+            // 2. Data Pendidikan
+            const boxPendidikan = document.getElementById('prof-pendidikan-container');
+            if(boxPendidikan) {
+                if(appData.pendidikan.length === 0) boxPendidikan.innerHTML = '<p class="text-sm text-gray-400 italic ml-4">Belum ada data pendidikan.</p>';
+                else {
+                    boxPendidikan.innerHTML = '';
+                    appData.pendidikan.forEach((item, i) => {
+                        const color = i === 0 ? 'bg-gBlue' : 'bg-gray-300';
+                        boxPendidikan.innerHTML += `
+                            <div class="relative pl-6">
+                                <span class="absolute -left-[9px] top-1 w-4 h-4 ${color} rounded-full border-4 border-white"></span>
+                                <h5 class="font-bold text-lg text-dark">${item.jenjang||'-'} ${item.prodi||''}</h5>
+                                <p class="text-sm font-semibold text-gBlue mb-1">${item.universitas||'-'} <span class="text-gray-400 font-normal">| Lulus ${item.tahun||'-'}</span></p>
+                            </div>`;
+                    });
+                }
+            }
+
+            // 3. Data Organisasi
+            const boxOrg = document.getElementById('prof-organisasi-container');
+            if(boxOrg) {
+                if(appData.organisasi.length === 0) boxOrg.innerHTML = '<p class="text-sm text-gray-400 italic">Belum ada data organisasi.</p>';
+                else {
+                    boxOrg.innerHTML = '';
+                    const colors = ['text-gGreen bg-green-50', 'text-gBlue bg-blue-50', 'text-gYellow bg-yellow-50', 'text-gRed bg-red-50'];
+                    appData.organisasi.forEach((item, i) => {
+                        const cls = colors[i % colors.length];
+                        boxOrg.innerHTML += `
+                            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                                <div class="w-10 h-10 ${cls} rounded-xl flex items-center justify-center text-xl mb-3"><i class="ph-fill ph-users-three"></i></div>
+                                <h5 class="font-bold text-dark leading-tight">${item.jabatan||'-'}</h5>
+                                <p class="text-sm text-gray-500">${item.nama_organisasi||'-'} (${item.tahun||'-'})</p>
+                            </div>`;
+                    });
+                }
+            }
+
+            // 4. Data Narasumber
+            const boxNara = document.getElementById('prof-narasumber-container');
+            if(boxNara) {
+                if(appData.narasumber.length === 0) boxNara.innerHTML = '<p class="text-sm text-gray-400 italic">Belum ada pengalaman narasumber.</p>';
+                else {
+                    boxNara.innerHTML = '';
+                    appData.narasumber.forEach(item => {
+                        boxNara.innerHTML += `
+                            <div class="flex items-start gap-4 p-3 hover:bg-white rounded-xl transition-colors">
+                                <div class="mt-0.5"><i class="ph-fill ph-check-circle text-gRed text-xl"></i></div>
+                                <div>
+                                    <h5 class="font-bold text-dark leading-tight">${item.nama_kegiatan||'-'}</h5>
+                                    <p class="text-sm text-gray-500">Tahun: ${item.tahun||'-'}</p>
+                                </div>
+                            </div>`;
+                    });
+                }
+            }
+
+            // 5. Data Penghargaan
+            const boxPenghargaan = document.getElementById('prof-penghargaan-container');
+            if(boxPenghargaan) {
+                if(appData.penghargaan.length === 0) boxPenghargaan.innerHTML = '<p class="text-sm text-gray-400 italic">Belum ada data penghargaan.</p>';
+                else {
+                    boxPenghargaan.innerHTML = '';
+                    appData.penghargaan.forEach(item => {
+                        boxPenghargaan.innerHTML += `
+                            <div class="flex items-start gap-4 p-3 hover:bg-white rounded-xl transition-colors">
+                                <div class="mt-0.5"><i class="ph-fill ph-medal text-gYellow text-xl"></i></div>
+                                <div>
+                                    <h5 class="font-bold text-dark leading-tight">${item.nama_penghargaan||'-'}</h5>
+                                    <p class="text-sm text-gray-500">Tahun: ${item.tahun||'-'}</p>
+                                </div>
+                            </div>`;
+                    });
+                }
+            }
+
+            // 6. Data Skill
+            const boxSkill = document.getElementById('prof-skill-container');
+            if(boxSkill) {
+                if(appData.skill.length === 0) boxSkill.innerHTML = '<p class="text-sm text-gray-400 italic">Belum ada data skill.</p>';
+                else {
+                    boxSkill.innerHTML = '';
+                    appData.skill.forEach(item => {
+                        let pct = item.persentase || '0';
+                        if(!pct.includes('%')) pct += '%';
+                        boxSkill.innerHTML += `
+                            <div class="mb-3">
+                                <div class="flex justify-between text-xs font-bold mb-1"><span class="text-gray-700">${item.nama_skill||'-'}</span><span class="text-gBlue">${pct}</span></div>
+                                <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-gBlue h-2 rounded-full" style="width: ${pct}"></div></div>
+                            </div>`;
+                    });
                 }
             }
         }
 
+        // --- Fitur Carousel HTML ---
         function buildCarouselHTML(gambarString) {
             if (!gambarString || typeof gambarString !== 'string') return '';
             const images = gambarString.split(',').map(url => url.trim()).filter(url => url.length > 5);
             if (images.length === 0) return '';
-            
-            // Menyimpan URL array secara aman untuk dikirim ke Lightbox
             const safeImageString = images.join('||');
-            
             let imgElements = '';
             images.forEach((url, index) => {
-                // Menambahkan trigger onclick dan efek hover icon zoom
                 imgElements += `<div class="snap-center shrink-0 w-full h-48 bg-gray-100 rounded-2xl overflow-hidden relative cursor-pointer group" onclick="openLightbox('${encodeURIComponent(safeImageString)}', ${index})">
                     <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors z-10 flex items-center justify-center">
                         <i class="ph-bold ph-arrows-out text-white text-3xl opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md transform group-hover:scale-110 duration-300"></i>
@@ -620,156 +674,97 @@
                     <img src="${url}" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&q=80'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                 </div>`;
             });
-
             const badge = images.length > 1 ? `<div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full z-20 flex items-center gap-1.5"><i class="ph-bold ph-images"></i> ${images.length} Foto (Geser)</div>` : '';
             return `<div class="relative w-full mb-5 group">${badge}<div class="flex overflow-x-auto snap-x snap-mandatory gap-4 hide-scrollbar pb-2">${imgElements}</div></div>`;
         }
 
+        // --- Render Portofolio ---
         function renderPelatihan() {
-            const container = document.getElementById('pelatihan-container');
-            const emptyState = document.getElementById('pelatihan-empty');
-            container.innerHTML = '';
-            if (appData.pelatihan.length === 0) { emptyState.classList.remove('hidden'); return; }
-            emptyState.classList.add('hidden');
-
+            const c = document.getElementById('pelatihan-container'); const e = document.getElementById('pelatihan-empty'); c.innerHTML = '';
+            if (appData.pelatihan.length === 0) { e.classList.remove('hidden'); return; } e.classList.add('hidden');
             appData.pelatihan.forEach((item) => {
                 const isNara = item.peran && item.peran.toLowerCase().includes('narasumber');
                 let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}); } catch(e){}
-                const carouselHTML = buildCarouselHTML(item.gambar);
-                container.innerHTML += `
-                    <div class="glass-panel p-6 rounded-3xl hover:-translate-y-2 transition-transform duration-300">
-                        ${carouselHTML}
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="px-3 py-1 text-xs font-black rounded-lg ${isNara ? 'bg-yellow-100 text-gYellow' : 'bg-blue-100 text-gBlue'}">${item.peran || 'Peserta'}</span>
-                        </div>
+                c.innerHTML += `<div class="glass-panel p-6 rounded-3xl hover:-translate-y-2 transition-transform duration-300">
+                        ${buildCarouselHTML(item.gambar)}
+                        <span class="px-3 py-1 text-xs font-black rounded-lg ${isNara ? 'bg-yellow-100 text-gYellow' : 'bg-blue-100 text-gBlue'} inline-block mb-3">${item.peran || 'Peserta'}</span>
                         <h3 class="font-bold text-dark text-xl leading-tight mb-4">${item.nama_pelatihan || 'Nama Pelatihan'}</h3>
-                        <div class="space-y-2 pt-4 border-t border-gray-200/50">
-                            <div class="flex items-center text-sm font-medium text-gray-600"><i class="ph-fill ph-calendar-blank mr-2 text-gray-400"></i> ${tgl}</div>
-                            <div class="flex items-center text-sm font-medium text-gray-600"><i class="ph-fill ph-buildings mr-2 text-gray-400"></i> ${item.penyelenggara || '-'}</div>
-                        </div>
-                    </div>
-                `;
+                        <div class="space-y-2 pt-4 border-t border-gray-200/50 text-sm font-medium text-gray-600">
+                            <div class="flex items-center"><i class="ph-fill ph-calendar-blank mr-2 text-gray-400"></i> ${tgl}</div>
+                            <div class="flex items-center"><i class="ph-fill ph-buildings mr-2 text-gray-400"></i> ${item.penyelenggara || '-'}</div>
+                        </div></div>`;
             });
         }
 
         function filterGPD(level) {
             currentGpdLevel = level;
-            document.querySelectorAll('.gpd-tab').forEach(tab => {
-                tab.classList.remove('bg-dark', 'text-white');
-                tab.classList.add('bg-white', 'text-gray-600');
-            });
-            const activeId = level.includes('1') ? 'tab-inisiator' : (level.includes('2') ? 'tab-akselerator' : 'tab-inspirator');
-            const tab = document.getElementById(activeId);
-            if(tab) {
-                tab.classList.remove('bg-white', 'text-gray-600');
-                tab.classList.add('bg-dark', 'text-white');
-            }
+            document.querySelectorAll('.gpd-tab').forEach(t => { t.classList.remove('bg-dark', 'text-white'); t.classList.add('bg-white', 'text-gray-600'); });
+            const tab = document.getElementById(level.includes('1') ? 'tab-inisiator' : (level.includes('2') ? 'tab-akselerator' : 'tab-inspirator'));
+            if(tab) { tab.classList.remove('bg-white', 'text-gray-600'); tab.classList.add('bg-dark', 'text-white'); }
             renderGPD(level);
         }
 
-        function renderGPD(levelFilter) {
-            const container = document.getElementById('gpd-container');
-            const emptyState = document.getElementById('gpd-empty');
-            container.innerHTML = '';
-            
-            const filtered = appData.gpd.filter(item => item.level && item.level.includes(levelFilter.split(' ')[1]));
-            if (filtered.length === 0) { emptyState.classList.remove('hidden'); return; }
-            emptyState.classList.add('hidden');
-
+        function renderGPD(level) {
+            const c = document.getElementById('gpd-container'); const e = document.getElementById('gpd-empty'); c.innerHTML = '';
+            const filtered = appData.gpd.filter(i => i.level && i.level.includes(level.split(' ')[1]));
+            if (filtered.length === 0) { e.classList.remove('hidden'); return; } e.classList.add('hidden');
             filtered.forEach((item) => {
                 let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}); } catch(e){}
-                const carouselHTML = buildCarouselHTML(item.gambar);
-                container.innerHTML += `
-                    <div class="glass-panel p-8 rounded-3xl flex flex-col md:flex-row gap-8">
-                        ${carouselHTML ? `<div class="md:w-1/2">${carouselHTML}</div>` : ''}
-                        <div class="${carouselHTML ? 'md:w-1/2' : 'w-full'} flex flex-col justify-center">
-                            <h3 class="font-black text-dark text-2xl mb-3">${item.kegiatan || 'Kegiatan GPD'}</h3>
-                            <div class="inline-flex px-3 py-1.5 bg-red-50 text-gRed rounded-lg text-sm font-bold mb-4 w-fit">
-                                <i class="ph-bold ph-calendar mr-2"></i> ${tgl}
-                            </div>
-                            <p class="text-gray-600 font-medium leading-relaxed">${item.deskripsi || 'Deskripsi kegiatan...'}</p>
-                        </div>
-                    </div>
-                `;
+                const img = buildCarouselHTML(item.gambar);
+                c.innerHTML += `<div class="glass-panel p-8 rounded-3xl flex flex-col md:flex-row gap-8">
+                        ${img ? `<div class="md:w-1/2">${img}</div>` : ''}
+                        <div class="${img ? 'md:w-1/2' : 'w-full'} flex flex-col justify-center">
+                            <h3 class="font-black text-dark text-2xl mb-3">${item.kegiatan || '-'}</h3>
+                            <div class="inline-flex px-3 py-1.5 bg-red-50 text-gRed rounded-lg text-sm font-bold mb-4 w-fit"><i class="ph-bold ph-calendar mr-2"></i> ${tgl}</div>
+                            <p class="text-gray-600 font-medium leading-relaxed">${item.deskripsi || '-'}</p>
+                        </div></div>`;
             });
         }
 
         function renderPraktikBaik() {
-            const container = document.getElementById('praktik-container');
-            const emptyState = document.getElementById('praktik-empty');
-            container.innerHTML = '';
-            if (appData.praktikBaik.length === 0) { emptyState.classList.remove('hidden'); return; }
-            emptyState.classList.add('hidden');
-
+            const c = document.getElementById('praktik-container'); const e = document.getElementById('praktik-empty'); c.innerHTML = '';
+            if (appData.praktikBaik.length === 0) { e.classList.remove('hidden'); return; } e.classList.add('hidden');
             appData.praktikBaik.forEach((item) => {
-                let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}); } catch(e){}
-                const carouselHTML = buildCarouselHTML(item.gambar);
-                let linkBtn = item.link_video ? `<a href="${item.link_video}" target="_blank" class="mt-6 w-full py-3 bg-yellow-50 hover:bg-gYellow text-gYellow hover:text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"><i class="ph-bold ph-link"></i> Link Video/Karya</a>` : '';
-                container.innerHTML += `
-                    <div class="glass-panel p-8 rounded-3xl flex flex-col justify-between">
-                        <div>
-                            ${carouselHTML}
-                            <div class="flex justify-between items-start mb-4 mt-2">
-                                <span class="text-xs font-bold text-gray-500 bg-white px-3 py-1 rounded-full shadow-sm">${tgl}</span>
-                            </div>
-                            <h3 class="font-black text-dark text-xl leading-snug mb-3">${item.judul || 'Judul Praktik Baik'}</h3>
-                            <p class="text-gray-600 font-medium leading-relaxed text-sm">${item.deskripsi || 'Deskripsi...'}</p>
-                        </div>
-                        ${linkBtn}
-                    </div>
-                `;
+                let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID'); } catch(e){}
+                c.innerHTML += `<div class="glass-panel p-8 rounded-3xl flex flex-col justify-between"><div>
+                            ${buildCarouselHTML(item.gambar)}
+                            <span class="text-xs font-bold text-gray-500 bg-white px-3 py-1 rounded-full shadow-sm inline-block mb-3">${tgl}</span>
+                            <h3 class="font-black text-dark text-xl leading-snug mb-3">${item.judul || '-'}</h3>
+                            <p class="text-gray-600 font-medium leading-relaxed text-sm">${item.deskripsi || '-'}</p>
+                        </div>${item.link_video ? `<a href="${item.link_video}" target="_blank" class="mt-6 w-full py-3 bg-yellow-50 hover:bg-gYellow text-gYellow hover:text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"><i class="ph-bold ph-link"></i> Lihat Karya</a>` : ''}</div>`;
             });
         }
 
+        // --- Fitur Admin & Login ---
         async function handleLogin(e) {
             e.preventDefault();
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
-            const errorMsg = document.getElementById('login-error');
-            
+            const u = document.getElementById('username').value; const p = document.getElementById('password').value; const err = document.getElementById('login-error');
             showLoader();
             try {
-                const res = await fetch(SCRIPT_URL, { 
-                    method: 'POST', 
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: 'login', username: user, password: pass }) 
-                });
+                const res = await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'login', username: u, password: p }) });
                 const result = await res.json();
-                if (result.status === 'success') {
-                    isLoggedIn = true; sessionStorage.setItem('isLoggedIn', 'true');
-                    errorMsg.classList.add('hidden');
-                    document.getElementById('username').value = ''; document.getElementById('password').value = '';
-                    updateAuthNavUI(); navigateTo('admin');
-                } else { 
-                    errorMsg.textContent = result.message || 'Username / Password salah!';
-                    errorMsg.classList.remove('hidden'); 
-                }
-            } catch (error) { 
-                alert("Gagal menghubungi server Apps Script.\n\nPastikan URL Web App sudah benar, dan aksesnya diatur ke 'Anyone' (Siapa saja)."); 
-            } finally { hideLoader(); }
+                if (result.status === 'success') { isLoggedIn = true; sessionStorage.setItem('isLoggedIn', 'true'); err.classList.add('hidden'); document.getElementById('username').value = ''; document.getElementById('password').value = ''; updateAuthNavUI(); navigateTo('admin'); } 
+                else { err.textContent = result.message || 'Salah!'; err.classList.remove('hidden'); }
+            } catch (error) { alert("Gagal menghubungi server Apps Script."); } finally { hideLoader(); }
         }
 
-        function handleLogout() {
-            isLoggedIn = false; sessionStorage.removeItem('isLoggedIn');
-            updateAuthNavUI(); navigateTo('home');
-        }
+        function handleLogout() { isLoggedIn = false; sessionStorage.removeItem('isLoggedIn'); updateAuthNavUI(); navigateTo('home'); }
 
         function switchAdminTab(sheetName) {
             currentAdminSheet = sheetName;
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.classList.remove('text-gBlue', 'border-gBlue', 'bg-white');
-                tab.classList.add('text-gray-500', 'border-transparent');
+            document.querySelectorAll('.admin-tab').forEach(t => {
+                t.classList.remove('bg-white', 'text-gBlue', 'border-gBlue');
+                t.classList.add('text-gray-500', 'border-transparent');
             });
             const active = document.getElementById('adm-tab-' + sheetName);
             if(active) {
                 active.classList.remove('text-gray-500', 'border-transparent');
-                active.classList.add('text-gBlue', 'border-gBlue', 'bg-white');
+                active.classList.add('bg-white', 'text-gBlue', 'border-gBlue');
             }
-            document.getElementById('admin-table-title').textContent = `Tabel ${sheetName === 'PraktikBaik' ? 'Praktik Baik' : sheetName}`;
+            document.getElementById('admin-table-title').textContent = `Data ${sheetName === 'PraktikBaik' ? 'Praktik Baik' : sheetName}`;
             renderAdminTable();
         }
 
-        // --- Render Table Admin dengan Fitur Edit & Hapus ---
         function renderAdminTable() {
             if (!isLoggedIn) return;
             const thead = document.getElementById('admin-thead'); const tbody = document.getElementById('admin-tbody');
@@ -777,7 +772,13 @@
 
             let dataList = []; let headers = [];
             
+            // Map Sheet Config
             if (currentAdminSheet === 'Profil') { dataList = appData.profil; headers = ['Nama', 'Jabatan', 'Email', 'Telepon']; }
+            else if (currentAdminSheet === 'Pendidikan') { dataList = appData.pendidikan; headers = ['Jenjang', 'Prodi', 'Universitas', 'Tahun Lulus']; }
+            else if (currentAdminSheet === 'Organisasi') { dataList = appData.organisasi; headers = ['Organisasi', 'Jabatan', 'Tahun']; }
+            else if (currentAdminSheet === 'Narasumber') { dataList = appData.narasumber; headers = ['Nama Kegiatan', 'Tahun']; }
+            else if (currentAdminSheet === 'Penghargaan') { dataList = appData.penghargaan; headers = ['Nama Penghargaan', 'Tahun']; }
+            else if (currentAdminSheet === 'Skill') { dataList = appData.skill; headers = ['Nama Skill', 'Persentase']; }
             else if (currentAdminSheet === 'Pelatihan') { dataList = appData.pelatihan; headers = ['Nama', 'Peran', 'Tgl', 'Penyelenggara', 'Gambar']; }
             else if (currentAdminSheet === 'GPD') { dataList = appData.gpd; headers = ['Level', 'Kegiatan', 'Tgl', 'Deskripsi', 'Gambar']; }
             else if (currentAdminSheet === 'PraktikBaik') { dataList = appData.praktikBaik; headers = ['Judul', 'Tgl', 'Deskripsi', 'Link', 'Gambar']; }
@@ -792,17 +793,16 @@
                 let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID'); } catch(e){}
                 let imgInd = item.gambar || item.foto ? `<span class="bg-green-100 text-gGreen px-2 py-1 rounded text-xs font-bold">Ada</span>` : `<span class="bg-gray-100 text-gray-400 px-2 py-1 rounded text-xs">Kosong</span>`;
 
-                if (currentAdminSheet === 'Profil') {
-                    tr += `<td class="px-6 py-4 text-sm font-bold text-dark">${item.nama||'-'}</td><td class="px-6 py-4 text-sm">${item.jabatan||'-'}</td><td class="px-6 py-4 text-sm">${item.email||'-'}</td><td class="px-6 py-4 text-sm">${item.telepon||'-'}</td>`;
-                } else if (currentAdminSheet === 'Pelatihan') {
-                    tr += `<td class="px-6 py-4 text-sm font-bold text-dark">${item.nama_pelatihan||'-'}</td><td class="px-6 py-4 text-sm">${item.peran||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm">${item.penyelenggara||'-'}</td><td class="px-6 py-4">${imgInd}</td>`;
-                } else if (currentAdminSheet === 'GPD') {
-                    tr += `<td class="px-6 py-4 text-sm font-bold text-dark whitespace-nowrap">${item.level||'-'}</td><td class="px-6 py-4 text-sm">${item.kegiatan||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm truncate max-w-[150px]">${item.deskripsi||'-'}</td><td class="px-6 py-4">${imgInd}</td>`;
-                } else if (currentAdminSheet === 'PraktikBaik') {
-                    tr += `<td class="px-6 py-4 text-sm font-bold text-dark">${item.judul||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm truncate max-w-[150px]">${item.deskripsi||'-'}</td><td class="px-6 py-4 text-sm">${item.link_video ? 'Ada Link' : '-'}</td><td class="px-6 py-4">${imgInd}</td>`;
-                }
+                if (currentAdminSheet === 'Profil') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.nama||'-'}</td><td class="px-6 py-4 text-sm">${item.jabatan||'-'}</td><td class="px-6 py-4 text-sm">${item.email||'-'}</td><td class="px-6 py-4 text-sm">${item.telepon||'-'}</td>`; } 
+                else if (currentAdminSheet === 'Pendidikan') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.jenjang||'-'}</td><td class="px-6 py-4 text-sm">${item.prodi||'-'}</td><td class="px-6 py-4 text-sm">${item.universitas||'-'}</td><td class="px-6 py-4 text-sm">${item.tahun||'-'}</td>`; }
+                else if (currentAdminSheet === 'Organisasi') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.nama_organisasi||'-'}</td><td class="px-6 py-4 text-sm">${item.jabatan||'-'}</td><td class="px-6 py-4 text-sm">${item.tahun||'-'}</td>`; }
+                else if (currentAdminSheet === 'Narasumber') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.nama_kegiatan||'-'}</td><td class="px-6 py-4 text-sm">${item.tahun||'-'}</td>`; }
+                else if (currentAdminSheet === 'Penghargaan') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.nama_penghargaan||'-'}</td><td class="px-6 py-4 text-sm">${item.tahun||'-'}</td>`; }
+                else if (currentAdminSheet === 'Skill') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.nama_skill||'-'}</td><td class="px-6 py-4 text-sm">${item.persentase||'-'}</td>`; }
+                else if (currentAdminSheet === 'Pelatihan') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.nama_pelatihan||'-'}</td><td class="px-6 py-4 text-sm">${item.peran||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm">${item.penyelenggara||'-'}</td><td class="px-6 py-4">${imgInd}</td>`; } 
+                else if (currentAdminSheet === 'GPD') { tr += `<td class="px-6 py-4 text-sm font-bold whitespace-nowrap">${item.level||'-'}</td><td class="px-6 py-4 text-sm">${item.kegiatan||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm truncate max-w-[150px]">${item.deskripsi||'-'}</td><td class="px-6 py-4">${imgInd}</td>`; } 
+                else if (currentAdminSheet === 'PraktikBaik') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.judul||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm truncate max-w-[150px]">${item.deskripsi||'-'}</td><td class="px-6 py-4 text-sm">${item.link_video ? 'Ada Link' : '-'}</td><td class="px-6 py-4">${imgInd}</td>`; }
                 
-                // Dua Tombol Aksi: Edit dan Hapus
                 tr += `<td class="px-6 py-4 text-right whitespace-nowrap">
                         <button onclick="openEditModal('${item.id}')" class="text-gBlue hover:bg-blue-50 p-2 rounded-lg mr-1"><i class="ph-bold ph-pencil-simple text-lg"></i></button>
                         <button onclick="deleteData('${item.id}')" class="text-gRed hover:bg-red-50 p-2 rounded-lg"><i class="ph-bold ph-trash text-lg"></i></button>
@@ -811,225 +811,154 @@
             });
         }
 
-        // --- Fungsi Modal Tambah / Edit ---
-        function openAddModal() {
-            editId = null; // Menandakan bahwa ini adalah penambahan data baru
-            document.getElementById('modal-title-text').innerText = 'Tambah Data Baru';
-            buildFormFields();
-            
-            const modal = document.getElementById('addModal'); const content = document.getElementById('addModalContent');
-            modal.classList.remove('hidden');
-            setTimeout(() => { content.classList.remove('scale-95', 'opacity-0'); }, 10);
-        }
-
-        function openEditModal(id) {
-            editId = id; // Set editId
-            document.getElementById('modal-title-text').innerText = 'Edit Data';
-            buildFormFields();
-            
-            // Cari item yang sesuai untuk diisi nilainya
-            let item;
-            if (currentAdminSheet === 'Profil') item = appData.profil.find(i => i.id == id);
-            else if (currentAdminSheet === 'Pelatihan') item = appData.pelatihan.find(i => i.id == id);
-            else if (currentAdminSheet === 'GPD') item = appData.gpd.find(i => i.id == id);
-            else if (currentAdminSheet === 'PraktikBaik') item = appData.praktikBaik.find(i => i.id == id);
-
-            if(!item) return;
-
-            // Masukkan data ke dalam form (berikan sedikit jeda agar form termuat di DOM)
-            setTimeout(() => {
-                if (currentAdminSheet === 'Profil') {
-                    document.getElementById('add-f1').value = item.nama || '';
-                    document.getElementById('add-f2').value = item.jabatan || '';
-                    document.getElementById('add-f3').value = item.deskripsi || '';
-                    document.getElementById('add-f4').value = item.email || '';
-                    document.getElementById('add-f5').value = item.telepon || '';
-                    document.getElementById('add-f6').value = item.alamat || '';
-                    document.getElementById('add-f7').value = item.foto || '';
-                } else if (currentAdminSheet === 'Pelatihan') {
-                    document.getElementById('add-f1').value = item.nama_pelatihan || '';
-                    document.getElementById('add-f2').value = item.peran || 'Peserta';
-                    document.getElementById('add-f3').value = item.tanggal ? new Date(item.tanggal).toISOString().split('T')[0] : '';
-                    document.getElementById('add-f4').value = item.penyelenggara || '';
-                    document.getElementById('add-f5').value = item.gambar || '';
-                } else if (currentAdminSheet === 'GPD') {
-                    document.getElementById('add-f1').value = item.level || 'Level 1 Inisiator';
-                    document.getElementById('add-f2').value = item.kegiatan || '';
-                    document.getElementById('add-f3').value = item.tanggal ? new Date(item.tanggal).toISOString().split('T')[0] : '';
-                    document.getElementById('add-f4').value = item.deskripsi || '';
-                    document.getElementById('add-f5').value = item.gambar || '';
-                } else if (currentAdminSheet === 'PraktikBaik') {
-                    document.getElementById('add-f1').value = item.judul || '';
-                    document.getElementById('add-f2').value = item.tanggal ? new Date(item.tanggal).toISOString().split('T')[0] : '';
-                    document.getElementById('add-f3').value = item.deskripsi || '';
-                    document.getElementById('add-f4').value = item.link_video || '';
-                    document.getElementById('add-f5').value = item.gambar || '';
-                }
-            }, 50);
-
-            const modal = document.getElementById('addModal'); const content = document.getElementById('addModalContent');
-            modal.classList.remove('hidden');
-            setTimeout(() => { content.classList.remove('scale-95', 'opacity-0'); }, 10);
-        }
-
+        // --- Engine Pembuat Form Input ---
         function buildFormFields() {
-            const formFields = document.getElementById('dynamic-form-fields');
+            const form = document.getElementById('dynamic-form-fields');
             const inCls = "w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-gBlue font-medium";
             const lblCls = "block text-sm font-bold text-gray-700 ml-1";
             const imgField = `<div><label class="${lblCls}">URL Gambar (Koma jika banyak)</label><textarea id="add-f5" rows="2" class="${inCls}" placeholder="https://drive..."></textarea></div>`;
 
             let html = '';
             if (currentAdminSheet === 'Profil') {
-                html = `<div><label class="${lblCls}">Nama Lengkap</label><input type="text" id="add-f1" required class="${inCls}"></div>
-                        <div><label class="${lblCls}">Jabatan / Instansi</label><input type="text" id="add-f2" required class="${inCls}"></div>
-                        <div><label class="${lblCls}">Tentang Saya (Deskripsi)</label><textarea id="add-f3" rows="3" required class="${inCls}"></textarea></div>
-                        <div><label class="${lblCls}">Email</label><input type="email" id="add-f4" required class="${inCls}"></div>
-                        <div><label class="${lblCls}">No. Telepon / WhatsApp</label><input type="text" id="add-f5" required class="${inCls}"></div>
-                        <div><label class="${lblCls}">Alamat</label><input type="text" id="add-f6" required class="${inCls}"></div>
-                        <div><label class="${lblCls}">URL Foto Profil</label><input type="url" id="add-f7" required class="${inCls}" placeholder="https://drive..."></div>`;
+                html = `<div><label class="${lblCls}">Nama Lengkap</label><input type="text" id="add-f1" class="${inCls}"></div>
+                        <div><label class="${lblCls}">Jabatan / Instansi</label><input type="text" id="add-f2" class="${inCls}"></div>
+                        <div><label class="${lblCls}">Tentang Saya</label><textarea id="add-f3" rows="3" class="${inCls}"></textarea></div>
+                        <div><label class="${lblCls}">Email</label><input type="email" id="add-f4" class="${inCls}"></div>
+                        <div><label class="${lblCls}">No. Telepon / WhatsApp</label><input type="text" id="add-f5" class="${inCls}"></div>
+                        <div><label class="${lblCls}">Alamat</label><input type="text" id="add-f6" class="${inCls}"></div>
+                        <div><label class="${lblCls}">URL Foto Profil</label><input type="url" id="add-f7" class="${inCls}"></div>`;
+            } else if (currentAdminSheet === 'Pendidikan') {
+                html = `<div><label class="${lblCls}">Jenjang (Contoh: S1/S2/PPG)</label><input type="text" id="add-f1" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Prodi / Jurusan</label><input type="text" id="add-f2" class="${inCls}"></div>
+                        <div><label class="${lblCls}">Universitas / Instansi</label><input type="text" id="add-f3" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Tahun Lulus (Contoh: 2021)</label><input type="text" id="add-f4" class="${inCls}"></div>`;
+            } else if (currentAdminSheet === 'Organisasi') {
+                html = `<div><label class="${lblCls}">Nama Organisasi</label><input type="text" id="add-f1" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Jabatan</label><input type="text" id="add-f2" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Tahun (Contoh: 2020 - Sekarang)</label><input type="text" id="add-f3" class="${inCls}"></div>`;
+            } else if (currentAdminSheet === 'Narasumber') {
+                html = `<div><label class="${lblCls}">Nama Kegiatan / Peran (Contoh: Google Certified Trainer)</label><input type="text" id="add-f1" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Tahun (Contoh: 2023)</label><input type="text" id="add-f2" class="${inCls}"></div>`;
+            } else if (currentAdminSheet === 'Penghargaan') {
+                html = `<div><label class="${lblCls}">Nama Penghargaan</label><input type="text" id="add-f1" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Tahun</label><input type="text" id="add-f2" class="${inCls}"></div>`;
+            } else if (currentAdminSheet === 'Skill') {
+                html = `<div><label class="${lblCls}">Nama Kemampuan</label><input type="text" id="add-f1" required class="${inCls}"></div>
+                        <div><label class="${lblCls}">Persentase (Cukup tulis angka, contoh: 90)</label><input type="number" id="add-f2" max="100" class="${inCls}"></div>`;
             } else if (currentAdminSheet === 'Pelatihan') {
                 html = `<div><label class="${lblCls}">Nama Pelatihan</label><input type="text" id="add-f1" required class="${inCls}"></div>
                         <div><label class="${lblCls}">Peran</label><select id="add-f2" required class="${inCls}"><option value="Peserta">Peserta</option><option value="Narasumber">Narasumber</option></select></div>
                         <div><label class="${lblCls}">Tanggal</label><input type="date" id="add-f3" required class="${inCls}"></div>
-                        <div><label class="${lblCls}">Penyelenggara</label><input type="text" id="add-f4" required class="${inCls}"></div>
-                        ${imgField}`;
+                        <div><label class="${lblCls}">Penyelenggara</label><input type="text" id="add-f4" required class="${inCls}"></div> ${imgField}`;
             } else if (currentAdminSheet === 'GPD') {
                 html = `<div><label class="${lblCls}">Level</label><select id="add-f1" required class="${inCls}"><option value="Level 1 Inisiator">Level 1: Inisiator</option><option value="Level 2 Akselerator">Level 2: Akselerator</option><option value="Level 3 Inspirator">Level 3: Inspirator</option></select></div>
                         <div><label class="${lblCls}">Nama Kegiatan</label><input type="text" id="add-f2" required class="${inCls}"></div>
                         <div><label class="${lblCls}">Tanggal</label><input type="date" id="add-f3" required class="${inCls}"></div>
-                        <div><label class="${lblCls}">Deskripsi</label><textarea id="add-f4" rows="2" required class="${inCls}"></textarea></div>
-                        ${imgField}`;
+                        <div><label class="${lblCls}">Deskripsi</label><textarea id="add-f4" rows="2" required class="${inCls}"></textarea></div> ${imgField}`;
             } else if (currentAdminSheet === 'PraktikBaik') {
                 html = `<div><label class="${lblCls}">Judul Inovasi</label><input type="text" id="add-f1" required class="${inCls}"></div>
                         <div><label class="${lblCls}">Tanggal</label><input type="date" id="add-f2" required class="${inCls}"></div>
                         <div><label class="${lblCls}">Deskripsi</label><textarea id="add-f3" rows="2" required class="${inCls}"></textarea></div>
-                        <div><label class="${lblCls}">Link Video/Materi</label><input type="url" id="add-f4" class="${inCls}"></div>
-                        ${imgField}`;
+                        <div><label class="${lblCls}">Link Video/Materi</label><input type="url" id="add-f4" class="${inCls}"></div> ${imgField}`;
             }
-            formFields.innerHTML = html;
+            form.innerHTML = html;
+        }
+
+        function openAddModal() {
+            editId = null; document.getElementById('modal-title-text').innerText = 'Tambah Data Baru'; buildFormFields();
+            const modal = document.getElementById('addModal'); const content = document.getElementById('addModalContent');
+            modal.classList.remove('hidden'); setTimeout(() => { content.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+
+        function openEditModal(id) {
+            editId = id; document.getElementById('modal-title-text').innerText = 'Edit Data'; buildFormFields();
+            let arr = [];
+            if(currentAdminSheet==='Profil') arr = appData.profil; else if(currentAdminSheet==='Pendidikan') arr = appData.pendidikan; else if(currentAdminSheet==='Organisasi') arr = appData.organisasi; else if(currentAdminSheet==='Narasumber') arr = appData.narasumber; else if(currentAdminSheet==='Penghargaan') arr = appData.penghargaan; else if(currentAdminSheet==='Skill') arr = appData.skill; else if(currentAdminSheet==='Pelatihan') arr = appData.pelatihan; else if(currentAdminSheet==='GPD') arr = appData.gpd; else if(currentAdminSheet==='PraktikBaik') arr = appData.praktikBaik;
+            
+            const item = arr.find(i => i.id == id); if(!item) return;
+
+            setTimeout(() => {
+                const keys = Object.keys(item).filter(k => k !== 'id'); 
+                let fieldIdx = 1;
+                for(let k in item) {
+                    if (k === 'id') continue;
+                    let el = document.getElementById('add-f' + fieldIdx);
+                    if(el) {
+                         if (el.type === 'date' && item[k]) {
+                             try { el.value = new Date(item[k]).toISOString().split('T')[0]; } catch(e){}
+                         } else {
+                             el.value = item[k] || '';
+                         }
+                    }
+                    fieldIdx++;
+                }
+            }, 50);
+
+            const m = document.getElementById('addModal'); const c = document.getElementById('addModalContent');
+            m.classList.remove('hidden'); setTimeout(() => { c.classList.remove('scale-95', 'opacity-0'); }, 10);
         }
 
         function closeAddModal() {
-            const modal = document.getElementById('addModal'); const content = document.getElementById('addModalContent');
-            content.classList.add('scale-95', 'opacity-0'); setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            const m = document.getElementById('addModal'); const c = document.getElementById('addModalContent');
+            c.classList.add('scale-95', 'opacity-0'); setTimeout(() => { m.classList.add('hidden'); }, 300);
         }
 
         async function submitAddData(e) {
             if(e) e.preventDefault();
             
             let rowData = [];
-            if (currentAdminSheet === 'Profil') {
-                rowData = [
-                    document.getElementById('add-f1')?.value || '', document.getElementById('add-f2')?.value || '',
-                    document.getElementById('add-f3')?.value || '', document.getElementById('add-f4')?.value || '',
-                    document.getElementById('add-f5')?.value || '', document.getElementById('add-f6')?.value || '',
-                    document.getElementById('add-f7')?.value || ''
-                ];
-            } else {
-                rowData = [
-                    document.getElementById('add-f1')?.value || '', document.getElementById('add-f2')?.value || '',
-                    document.getElementById('add-f3')?.value || '', document.getElementById('add-f4')?.value || '',
-                    document.getElementById('add-f5')?.value || '' 
-                ];
+            for(let i=1; i<=7; i++){
+                const el = document.getElementById('add-f'+i);
+                if(el) rowData.push(el.value);
             }
 
             closeAddModal(); showLoader();
             try {
-                // Tentukan aksi: apakah menambah ('add') atau mengubah ('edit')
-                const payload = editId ? 
-                    { action: 'edit', sheet: currentAdminSheet, id: editId, data: rowData } : 
-                    { action: 'add', sheet: currentAdminSheet, data: rowData };
-
-                const res = await fetch(SCRIPT_URL, { 
-                    method: 'POST', 
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload) 
-                });
+                const payload = editId ? { action: 'edit', sheet: currentAdminSheet, id: editId, data: rowData } : { action: 'add', sheet: currentAdminSheet, data: rowData };
+                const res = await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
                 const result = await res.json();
                 if(result.status === 'success') { await fetchDataFromAppsScript(); } else { alert('Gagal: ' + result.message); }
-            } catch (error) { alert('Terjadi kesalahan jaringan: ' + error.message); } finally { hideLoader(); }
+            } catch (error) { alert('Terjadi kesalahan jaringan.'); } finally { hideLoader(); }
         }
 
         async function deleteData(id) {
             if(!confirm('Hapus data ini secara permanen?')) return;
             showLoader();
             try {
-                const res = await fetch(SCRIPT_URL, { 
-                    method: 'POST', 
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: 'delete', sheet: currentAdminSheet, id: id }) 
-                });
+                const res = await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'delete', sheet: currentAdminSheet, id: id }) });
                 const result = await res.json();
                 if(result.status === 'success') { await fetchDataFromAppsScript(); } else { alert('Gagal menghapus.'); }
-            } catch (error) { alert('Terjadi kesalahan: ' + error.message); } finally { hideLoader(); }
+            } catch (error) { alert('Terjadi kesalahan.'); } finally { hideLoader(); }
         }
 
         function showLoader() { const l = document.getElementById('loadingOverlay'); l.classList.remove('hidden'); }
         function hideLoader() { const l = document.getElementById('loadingOverlay'); l.classList.add('hidden'); }
 
         // --- FITUR LIGHTBOX (POPUP GAMBAR) ---
-        let lightboxImages = [];
-        let lightboxIndex = 0;
-
+        let lightboxImages = []; let lightboxIndex = 0;
         function openLightbox(encodedImages, index) {
-            lightboxImages = decodeURIComponent(encodedImages).split('||');
-            lightboxIndex = index;
-            updateLightboxView();
-            const lightbox = document.getElementById('lightbox');
-            lightbox.classList.remove('hidden');
-            lightbox.classList.add('flex');
-            document.body.style.overflow = 'hidden'; // Kunci scroll layar utama
+            lightboxImages = decodeURIComponent(encodedImages).split('||'); lightboxIndex = index; updateLightboxView();
+            const l = document.getElementById('lightbox'); l.classList.remove('hidden'); l.classList.add('flex'); document.body.style.overflow = 'hidden';
         }
-
         function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.classList.add('hidden');
-            lightbox.classList.remove('flex');
-            document.body.style.overflow = ''; // Buka kembali scroll
+            const l = document.getElementById('lightbox'); l.classList.add('hidden'); l.classList.remove('flex'); document.body.style.overflow = '';
         }
-
-        function changeLightbox(direction) {
-            lightboxIndex += direction;
-            if (lightboxIndex < 0) lightboxIndex = lightboxImages.length - 1;
-            if (lightboxIndex >= lightboxImages.length) lightboxIndex = 0;
-            updateLightboxView();
+        function changeLightbox(dir) {
+            lightboxIndex += dir; if (lightboxIndex < 0) lightboxIndex = lightboxImages.length - 1; if (lightboxIndex >= lightboxImages.length) lightboxIndex = 0; updateLightboxView();
         }
-
         function updateLightboxView() {
             document.getElementById('lightbox-img').src = lightboxImages[lightboxIndex];
             document.getElementById('lightbox-counter').innerText = `${lightboxIndex + 1} / ${lightboxImages.length}`;
-            
-            // Sembunyikan panah jika hanya ada 1 gambar
             const navBtns = document.querySelectorAll('.lightbox-nav');
-            if (lightboxImages.length <= 1) {
-                navBtns.forEach(btn => btn.classList.add('hidden'));
-            } else {
-                navBtns.forEach(btn => btn.classList.remove('hidden'));
-            }
+            if (lightboxImages.length <= 1) { navBtns.forEach(btn => btn.classList.add('hidden')); } else { navBtns.forEach(btn => btn.classList.remove('hidden')); }
         }
-
-        // Navigasi dengan Tombol Panah & Escape di Keyboard
         document.addEventListener('keydown', (e) => {
-            const lightbox = document.getElementById('lightbox');
-            if (!lightbox.classList.contains('hidden')) {
-                if (e.key === 'Escape') closeLightbox();
-                if (e.key === 'ArrowLeft') changeLightbox(-1);
-                if (e.key === 'ArrowRight') changeLightbox(1);
-            }
+            const l = document.getElementById('lightbox');
+            if (!l.classList.contains('hidden')) { if (e.key === 'Escape') closeLightbox(); if (e.key === 'ArrowLeft') changeLightbox(-1); if (e.key === 'ArrowRight') changeLightbox(1); }
         });
-
-        // Fitur Geser (Swipe) untuk Smartphone
-        let touchStartX = 0;
-        let touchEndX = 0;
-        document.getElementById('lightbox').addEventListener('touchstart', e => { 
-            touchStartX = e.changedTouches[0].screenX; 
-        }, {passive: true});
-        document.getElementById('lightbox').addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchEndX < touchStartX - 50) changeLightbox(1); // Swipe Kiri (Gambar Selanjutnya)
-            if (touchEndX > touchStartX + 50) changeLightbox(-1); // Swipe Kanan (Gambar Sebelumnya)
-        }, {passive: true});
-
+        let tsX = 0, teX = 0;
+        document.getElementById('lightbox').addEventListener('touchstart', e => { tsX = e.changedTouches[0].screenX; }, {passive: true});
+        document.getElementById('lightbox').addEventListener('touchend', e => { teX = e.changedTouches[0].screenX; if (teX < tsX - 50) changeLightbox(1); if (teX > tsX + 50) changeLightbox(-1); }, {passive: true});
     </script>
 </body>
 </html>
