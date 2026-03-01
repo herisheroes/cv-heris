@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heris Apriadi - Guru Pejuang Digital</title>
+    <!-- Favicon -->
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNwL9a-JM7cDMWy02SV_0d_ZP8orEIOi3hYV8wzEpwydrTcP7AdAHf_tLBvdnJCbXuKS0ExIrf1LJgi9ivXoqiAOtH42SYgjeYuw2dA812mUPDG4Cepim9VnoMGD6yI-vcq3OI7zCyfDZDW5aDWJtMZu0B9mrOYpVJ6Fgc0BXlXFt-Th3TxYdtaJpxN8sN/s1000/LOGO%20YUTUB%20COLOR.png" type="image/png">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
@@ -91,9 +94,7 @@
     <div class="fixed w-full top-4 z-50 px-4 flex justify-center">
         <nav class="bg-white/95 backdrop-blur-xl shadow-lg shadow-blue-900/5 rounded-full px-6 py-3 flex justify-between items-center w-full max-w-6xl border border-white">
             <div class="flex items-center cursor-pointer group" onclick="navigateTo('home')">
-                <div class="bg-gBlue text-white font-black text-xl w-10 h-10 rounded-xl flex items-center justify-center shadow-md mr-3 group-hover:scale-105 transition-transform">
-                    <span id="nav-initials">HA</span>
-                </div>
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNwL9a-JM7cDMWy02SV_0d_ZP8orEIOi3hYV8wzEpwydrTcP7AdAHf_tLBvdnJCbXuKS0ExIrf1LJgi9ivXoqiAOtH42SYgjeYuw2dA812mUPDG4Cepim9VnoMGD6yI-vcq3OI7zCyfDZDW5aDWJtMZu0B9mrOYpVJ6Fgc0BXlXFt-Th3TxYdtaJpxN8sN/s1000/LOGO%20YUTUB%20COLOR.png" alt="Logo" class="w-10 h-10 rounded-xl shadow-md mr-3 group-hover:scale-105 transition-transform bg-white object-contain p-0.5 border border-gray-100">
                 <div class="leading-tight hidden sm:block">
                     <h1 class="font-extrabold text-sm text-dark tracking-wide" id="nav-nama">Heris Apriadi</h1>
                     <p class="text-[10px] font-bold text-gBlue tracking-widest uppercase">Guru Pejuang Digital</p>
@@ -311,6 +312,12 @@
                 <button onclick="filterGPD('Level 2 Akselerator')" id="tab-akselerator" class="gpd-tab bg-white shadow-sm text-gray-600 font-bold py-3 px-6 rounded-full border transition-all">Level 2: Akselerator</button>
                 <button onclick="filterGPD('Level 3 Inspirator')" id="tab-inspirator" class="gpd-tab bg-white shadow-sm text-gray-600 font-bold py-3 px-6 rounded-full border transition-all">Level 3: Inspirator</button>
             </div>
+
+            <!-- Penjelasan Kompetensi GPD -->
+            <div id="gpd-kompetensi-box" class="max-w-4xl mx-auto mb-8 bg-blue-50 border border-blue-100 rounded-3xl p-6 text-gray-700 shadow-sm hidden">
+                <!-- Diisi otomatis via JavaScript -->
+            </div>
+
             <div id="gpd-container" class="space-y-8 max-w-4xl mx-auto"></div>
             <div id="gpd-empty" class="hidden text-center py-20 glass-panel rounded-3xl max-w-4xl mx-auto">
                 <i class="ph-fill ph-rocket text-6xl text-gray-300 mb-4 block"></i>
@@ -413,7 +420,7 @@
     <footer class="bg-dark text-white py-12 mt-auto">
         <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-2">
-                <div class="bg-gBlue font-black w-8 h-8 rounded-lg flex items-center justify-center text-sm">HA</div>
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNwL9a-JM7cDMWy02SV_0d_ZP8orEIOi3hYV8wzEpwydrTcP7AdAHf_tLBvdnJCbXuKS0ExIrf1LJgi9ivXoqiAOtH42SYgjeYuw2dA812mUPDG4Cepim9VnoMGD6yI-vcq3OI7zCyfDZDW5aDWJtMZu0B9mrOYpVJ6Fgc0BXlXFt-Th3TxYdtaJpxN8sN/s1000/LOGO%20YUTUB%20COLOR.png" alt="Logo" class="w-8 h-8 rounded-lg bg-white object-contain p-0.5">
                 <span class="font-bold tracking-wide">Guru Pejuang Digital</span>
             </div>
             <p class="text-sm text-gray-400 font-medium text-center">&copy; 2026 oleh @herisheroes</p>
@@ -463,6 +470,23 @@
         let currentGpdLevel = 'Level 1 Inisiator';
         let isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
         let editId = null; 
+
+        // Data Deskripsi Kompetensi GPD
+        const gpdCompetencies = {
+            '1': `<ul class="list-decimal pl-5 space-y-1.5 text-sm font-medium">
+                    <li>Memiliki keterampilan TIK dasar dan mampu memahami cara pengoperasian Papan Interaktif Digital dan perangkat lain; dan memahami Rumah Pendidikan.</li>
+                    <li>Mengimplementasikan inovasi pembelajaran dengan mengintegrasikan teknologi.</li>
+                  </ul>`,
+            '2': `<ul class="list-decimal pl-5 space-y-1.5 text-sm font-medium">
+                    <li>Aktif menjadi mentor bagi rekan guru lain dalam pemanfaatan PID dan Rumah Pendidikan, serta berkontribusi membangun budaya pembelajaran digital di satuan pendidikannya.</li>
+                    <li>Kemampuan untuk berbagi praktik baik melalui berbagai kanal dan aktivitas.</li>
+                  </ul>`,
+            '3': `<ul class="list-decimal pl-5 space-y-1.5 text-sm font-medium">
+                    <li>Menciptakan dan mendokumentasikan praktik inovatif yang diadopsi secara luas (tingkat wilayah/nasional).</li>
+                    <li>Berperan sebagai penghubung dan penggerak yang mendorong adopsi pemanfaatan PID & Rumah Pendidikan ke komunitas yang lebih luas.</li>
+                    <li>Menciptakan inovasi pembelajaran dengan pemanfaatan PID dan Rumah Pendidikan.</li>
+                  </ul>`
+        };
 
         document.addEventListener('DOMContentLoaded', () => {
             updateAuthNavUI();
@@ -573,6 +597,7 @@
                     if(document.getElementById('prof-foto')) { document.getElementById('prof-foto').classList.add('hidden'); if(document.getElementById('prof-foto-placeholder')) document.getElementById('prof-foto-placeholder').classList.remove('hidden'); }
                 }
                 
+                // Menghapus elemen nav-initials yang sudah diganti oleh logo, jadi kode ini cukup diabaikan secara aman.
                 if(document.getElementById('nav-nama')) document.getElementById('nav-nama').innerText = p.nama || 'Nama Anda';
                 if(document.getElementById('nav-initials')) document.getElementById('nav-initials').innerText = p.nama ? p.nama.substring(0,2).toUpperCase() : 'HA';
                 if(document.getElementById('prof-nama')) document.getElementById('prof-nama').innerText = p.nama || 'Nama Anda';
@@ -719,6 +744,15 @@
             document.querySelectorAll('.gpd-tab').forEach(t => { t.classList.remove('bg-dark', 'text-white'); t.classList.add('bg-white', 'text-gray-600'); });
             const tab = document.getElementById(level.includes('1') ? 'tab-inisiator' : (level.includes('2') ? 'tab-akselerator' : 'tab-inspirator'));
             if(tab) { tab.classList.remove('bg-white', 'text-gray-600'); tab.classList.add('bg-dark', 'text-white'); }
+            
+            // Tampilkan Kompetensi
+            const compBox = document.getElementById('gpd-kompetensi-box');
+            if(compBox) {
+                let lvlNum = level.includes('1') ? '1' : (level.includes('2') ? '2' : '3');
+                compBox.innerHTML = `<h4 class="font-black text-dark mb-3 flex items-center gap-2"><i class="ph-fill ph-target text-gBlue text-xl"></i> Kompetensi Level ${lvlNum}</h4>` + gpdCompetencies[lvlNum];
+                compBox.classList.remove('hidden');
+            }
+
             renderGPD(level);
         }
 
@@ -869,7 +903,20 @@
                         <div><label class="${lblCls}">Tanggal</label><input type="date" id="add-f3" required class="${inCls}"></div>
                         <div><label class="${lblCls}">Penyelenggara</label><input type="text" id="add-f4" required class="${inCls}"></div> ${imgField}`;
             } else if (currentAdminSheet === 'GPD') {
-                html = `<div><label class="${lblCls}">Level</label><select id="add-f1" required class="${inCls}"><option value="Level 1 Inisiator">Level 1: Inisiator</option><option value="Level 2 Akselerator">Level 2: Akselerator</option><option value="Level 3 Inspirator">Level 3: Inspirator</option></select></div>
+                let pOptions = '<option value="">-- Pilih Data untuk Diimpor (Opsional) --</option>';
+                if (appData.pelatihan.length > 0) {
+                    pOptions += '<optgroup label="Dari Data Pelatihan">';
+                    appData.pelatihan.forEach((p, idx) => { pOptions += `<option value="pelatihan_${idx}">${p.nama_pelatihan || 'Tanpa Nama'} (${p.tanggal ? new Date(p.tanggal).toLocaleDateString('id-ID') : '-'})</option>`; });
+                    pOptions += '</optgroup>';
+                }
+                if (appData.praktikBaik.length > 0) {
+                    pOptions += '<optgroup label="Dari Data Inovasi (Praktik Baik)">';
+                    appData.praktikBaik.forEach((p, idx) => { pOptions += `<option value="inovasi_${idx}">${p.judul || 'Tanpa Judul'} (${p.tanggal ? new Date(p.tanggal).toLocaleDateString('id-ID') : '-'})</option>`; });
+                    pOptions += '</optgroup>';
+                }
+                
+                html = `<div><label class="${lblCls}">Impor Data Cepat <span class="text-xs font-normal text-gray-500">(Otomatis isi form)</span></label><select class="${inCls} bg-blue-50 border-blue-200" onchange="autoFillGPD(this.value)">${pOptions}</select></div>
+                        <div><label class="${lblCls}">Level</label><select id="add-f1" required class="${inCls}"><option value="Level 1 Inisiator">Level 1: Inisiator</option><option value="Level 2 Akselerator">Level 2: Akselerator</option><option value="Level 3 Inspirator">Level 3: Inspirator</option></select></div>
                         <div><label class="${lblCls}">Nama Kegiatan</label><input type="text" id="add-f2" required class="${inCls}"></div>
                         <div><label class="${lblCls}">Tanggal</label><input type="date" id="add-f3" required class="${inCls}"></div>
                         <div><label class="${lblCls}">Deskripsi</label><textarea id="add-f4" rows="2" required class="${inCls}"></textarea></div> ${imgField}`;
@@ -880,6 +927,34 @@
                         <div><label class="${lblCls}">Link Video/Materi</label><input type="url" id="add-f4" class="${inCls}"></div> ${imgField}`;
             }
             form.innerHTML = html;
+        }
+
+        // Fungsi Auto-fill Form GPD dari Pelatihan atau Inovasi
+        function autoFillGPD(val) {
+            if (!val) return;
+            const parts = val.split('_');
+            const type = parts[0];
+            const index = parseInt(parts[1]);
+            
+            let dataObj = null;
+            if (type === 'pelatihan' && appData.pelatihan[index]) {
+                dataObj = appData.pelatihan[index];
+                document.getElementById('add-f2').value = dataObj.nama_pelatihan || '';
+                document.getElementById('add-f4').value = `Peran: ${dataObj.peran || '-'}\nPenyelenggara: ${dataObj.penyelenggara || '-'}`;
+            } else if (type === 'inovasi' && appData.praktikBaik[index]) {
+                dataObj = appData.praktikBaik[index];
+                document.getElementById('add-f2').value = dataObj.judul || '';
+                document.getElementById('add-f4').value = dataObj.deskripsi || '';
+                if(dataObj.link_video) document.getElementById('add-f4').value += `\nLink Karya: ${dataObj.link_video}`;
+            }
+            
+            if (dataObj) {
+                if (dataObj.tanggal) { 
+                    try { document.getElementById('add-f3').value = new Date(dataObj.tanggal).toISOString().split('T')[0]; } catch(e){} 
+                }
+                const imgEl = document.getElementById('add-f5');
+                if(imgEl) imgEl.value = dataObj.gambar || '';
+            }
         }
 
         function openAddModal() {
