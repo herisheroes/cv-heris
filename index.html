@@ -529,6 +529,24 @@
                     appData.penghargaan = result.data.penghargaan || [];
                     appData.skill = result.data.skill || [];
                     
+                    // --- SORTING OTOMATIS (TERBARU KE TERLAMA) ---
+                    // Fungsi untuk mengambil angka tahun (contoh: dari "2020 - Sekarang" jadi 2020)
+                    const getYear = (y) => { const m = String(y||'').match(/\d{4}/); return m ? parseInt(m[0]) : 0; };
+                    // Fungsi untuk konversi tanggal ke angka (waktu) untuk dibandingkan
+                    const getDate = (d) => d ? new Date(d).getTime() : 0;
+
+                    // Mengurutkan yang menggunakan "Tahun"
+                    appData.pendidikan.sort((a, b) => getYear(b.tahun) - getYear(a.tahun));
+                    appData.organisasi.sort((a, b) => getYear(b.tahun) - getYear(a.tahun));
+                    appData.narasumber.sort((a, b) => getYear(b.tahun) - getYear(a.tahun));
+                    appData.penghargaan.sort((a, b) => getYear(b.tahun) - getYear(a.tahun));
+
+                    // Mengurutkan yang menggunakan format "Tanggal" Lengkap
+                    appData.pelatihan.sort((a, b) => getDate(b.tanggal) - getDate(a.tanggal));
+                    appData.gpd.sort((a, b) => getDate(b.tanggal) - getDate(a.tanggal));
+                    appData.praktikBaik.sort((a, b) => getDate(b.tanggal) - getDate(a.tanggal));
+                    // ---------------------------------------------
+
                     renderProfilData(); 
                     const currentHash = window.location.hash.replace('#', '') || 'home';
                     if(currentHash === 'pelatihan') renderPelatihan();
