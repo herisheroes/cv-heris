@@ -647,7 +647,7 @@
                 else {
                     boxSkill.innerHTML = '';
                     appData.skill.forEach(item => {
-                        let pct = item.persentase || '0';
+                        let pct = String(item.persentase || '0');
                         if(!pct.includes('%')) pct += '%';
                         boxSkill.innerHTML += `
                             <div class="mb-3">
@@ -683,7 +683,7 @@
             const c = document.getElementById('pelatihan-container'); const e = document.getElementById('pelatihan-empty'); c.innerHTML = '';
             if (appData.pelatihan.length === 0) { e.classList.remove('hidden'); return; } e.classList.add('hidden');
             appData.pelatihan.forEach((item) => {
-                const isNara = item.peran && item.peran.toLowerCase().includes('narasumber');
+                const isNara = item.peran && String(item.peran).toLowerCase().includes('narasumber');
                 let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}); } catch(e){}
                 c.innerHTML += `<div class="glass-panel p-6 rounded-3xl hover:-translate-y-2 transition-transform duration-300">
                         ${buildCarouselHTML(item.gambar)}
@@ -706,7 +706,7 @@
 
         function renderGPD(level) {
             const c = document.getElementById('gpd-container'); const e = document.getElementById('gpd-empty'); c.innerHTML = '';
-            const filtered = appData.gpd.filter(i => i.level && i.level.includes(level.split(' ')[1]));
+            const filtered = appData.gpd.filter(i => i.level && String(i.level).includes(level.split(' ')[1]));
             if (filtered.length === 0) { e.classList.remove('hidden'); return; } e.classList.add('hidden');
             filtered.forEach((item) => {
                 let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}); } catch(e){}
