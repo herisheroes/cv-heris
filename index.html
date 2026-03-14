@@ -471,6 +471,9 @@
         let isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
         let editId = null; 
 
+        // Fungsi Helper Cek Pin
+        const isItemPinned = (p) => (p && (p.Pin === 'Ya' || p.pin === 'Ya' || p.PIN === 'Ya'));
+
         // Data Deskripsi Kompetensi GPD
         const gpdCompetencies = {
             '1': `<ul class="list-decimal pl-5 space-y-1.5 text-sm font-medium">
@@ -565,10 +568,16 @@
                     appData.narasumber.sort((a, b) => getYear(b.tahun) - getYear(a.tahun));
                     appData.penghargaan.sort((a, b) => getYear(b.tahun) - getYear(a.tahun));
 
-                    // Mengurutkan yang menggunakan format "Tanggal" Lengkap
-                    appData.pelatihan.sort((a, b) => getDate(b.tanggal) - getDate(a.tanggal));
+                    // Mengurutkan yang menggunakan format "Tanggal" Lengkap + PIN
+                    appData.pelatihan.sort((a, b) => {
+                        if (isItemPinned(b) !== isItemPinned(a)) return isItemPinned(b) ? 1 : -1;
+                        return getDate(b.tanggal) - getDate(a.tanggal);
+                    });
                     appData.gpd.sort((a, b) => getDate(b.tanggal) - getDate(a.tanggal));
-                    appData.praktikBaik.sort((a, b) => getDate(b.tanggal) - getDate(a.tanggal));
+                    appData.praktikBaik.sort((a, b) => {
+                        if (isItemPinned(b) !== isItemPinned(a)) return isItemPinned(b) ? 1 : -1;
+                        return getDate(b.tanggal) - getDate(a.tanggal);
+                    });
                     // ---------------------------------------------
 
                     renderProfilData(); 
@@ -728,7 +737,9 @@
             appData.pelatihan.forEach((item) => {
                 const isNara = item.peran && String(item.peran).toLowerCase().includes('narasumber');
                 let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}); } catch(e){}
-                c.innerHTML += `<div class="glass-panel p-6 rounded-3xl hover:-translate-y-2 transition-transform duration-300">
+                const pinBadge = isItemPinned(item) ? `<div class="absolute top-0 right-0 bg-gYellow text-white text-[10px] font-black px-4 py-1.5 rounded-bl-2xl z-20 shadow-sm flex items-center gap-1 uppercase tracking-widest"><i class="ph-fill ph-push-pin text-sm"></i> Pinned</div>` : '';
+                c.innerHTML += `<div class="glass-panel p-6 rounded-3xl hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden">
+                        ${pinBadge}
                         ${buildCarouselHTML(item.gambar)}
                         <span class="px-3 py-1 text-xs font-black rounded-lg ${isNara ? 'bg-yellow-100 text-gYellow' : 'bg-blue-100 text-gBlue'} inline-block mb-3">${item.peran || 'Peserta'}</span>
                         <h3 class="font-bold text-dark text-xl leading-tight mb-4">${item.nama_pelatihan || 'Nama Pelatihan'}</h3>
@@ -778,7 +789,10 @@
             if (appData.praktikBaik.length === 0) { e.classList.remove('hidden'); return; } e.classList.add('hidden');
             appData.praktikBaik.forEach((item) => {
                 let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID'); } catch(e){}
-                c.innerHTML += `<div class="glass-panel p-8 rounded-3xl flex flex-col justify-between"><div>
+                const pinBadge = isItemPinned(item) ? `<div class="absolute top-0 right-0 bg-gYellow text-white text-[10px] font-black px-4 py-1.5 rounded-bl-2xl z-20 shadow-sm flex items-center gap-1 uppercase tracking-widest"><i class="ph-fill ph-push-pin text-sm"></i> Pinned</div>` : '';
+                c.innerHTML += `<div class="glass-panel p-8 rounded-3xl flex flex-col justify-between relative overflow-hidden">
+                            ${pinBadge}
+                            <div>
                             ${buildCarouselHTML(item.gambar)}
                             <span class="text-xs font-bold text-gray-500 bg-white px-3 py-1 rounded-full shadow-sm inline-block mb-3">${tgl}</span>
                             <h3 class="font-black text-dark text-xl leading-snug mb-3">${item.judul || '-'}</h3>
@@ -831,9 +845,9 @@
             else if (currentAdminSheet === 'Narasumber') { dataList = appData.narasumber; headers = ['Nama Kegiatan', 'Tahun']; }
             else if (currentAdminSheet === 'Penghargaan') { dataList = appData.penghargaan; headers = ['Nama Penghargaan', 'Tahun']; }
             else if (currentAdminSheet === 'Skill') { dataList = appData.skill; headers = ['Nama Skill', 'Persentase']; }
-            else if (currentAdminSheet === 'Pelatihan') { dataList = appData.pelatihan; headers = ['Nama', 'Peran', 'Tgl', 'Penyelenggara', 'Gambar']; }
+            else if (currentAdminSheet === 'Pelatihan') { dataList = appData.pelatihan; headers = ['Nama', 'Peran', 'Tgl', 'Penyelenggara', 'Gambar', 'Pin']; }
             else if (currentAdminSheet === 'GPD') { dataList = appData.gpd; headers = ['Level', 'Kegiatan', 'Tgl', 'Deskripsi', 'Gambar']; }
-            else if (currentAdminSheet === 'PraktikBaik') { dataList = appData.praktikBaik; headers = ['Judul', 'Tgl', 'Deskripsi', 'Link', 'Gambar']; }
+            else if (currentAdminSheet === 'PraktikBaik') { dataList = appData.praktikBaik; headers = ['Judul', 'Tgl', 'Deskripsi', 'Link', 'Gambar', 'Pin']; }
 
             let thHTML = ''; headers.forEach(h => { thHTML += `<th class="px-6 py-4">${h}</th>`; });
             thead.innerHTML = thHTML + `<th class="px-6 py-4 text-right">Aksi</th>`;
@@ -844,6 +858,7 @@
                 let tr = '<tr class="hover:bg-gray-50/50 transition-colors">';
                 let tgl = '-'; try { tgl = new Date(item.tanggal).toLocaleDateString('id-ID'); } catch(e){}
                 let imgInd = item.gambar || item.foto ? `<span class="bg-green-100 text-gGreen px-2 py-1 rounded text-xs font-bold">Ada</span>` : `<span class="bg-gray-100 text-gray-400 px-2 py-1 rounded text-xs">Kosong</span>`;
+                let pinInd = isItemPinned(item) ? `<span class="bg-yellow-100 text-gYellow px-2 py-1 rounded text-xs font-bold"><i class="ph-fill ph-push-pin"></i></span>` : `<span class="text-gray-300">-</span>`;
 
                 if (currentAdminSheet === 'Profil') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.nama||'-'}</td><td class="px-6 py-4 text-sm">${item.jabatan||'-'}</td><td class="px-6 py-4 text-sm">${item.email||'-'}</td><td class="px-6 py-4 text-sm">${item.telepon||'-'}</td>`; } 
                 else if (currentAdminSheet === 'Pendidikan') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.jenjang||'-'}</td><td class="px-6 py-4 text-sm">${item.prodi||'-'}</td><td class="px-6 py-4 text-sm">${item.universitas||'-'}</td><td class="px-6 py-4 text-sm">${item.tahun||'-'}</td>`; }
@@ -851,9 +866,9 @@
                 else if (currentAdminSheet === 'Narasumber') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.nama_kegiatan||'-'}</td><td class="px-6 py-4 text-sm">${item.tahun||'-'}</td>`; }
                 else if (currentAdminSheet === 'Penghargaan') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.nama_penghargaan||'-'}</td><td class="px-6 py-4 text-sm">${item.tahun||'-'}</td>`; }
                 else if (currentAdminSheet === 'Skill') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.nama_skill||'-'}</td><td class="px-6 py-4 text-sm">${item.persentase||'-'}</td>`; }
-                else if (currentAdminSheet === 'Pelatihan') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.nama_pelatihan||'-'}</td><td class="px-6 py-4 text-sm">${item.peran||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm">${item.penyelenggara||'-'}</td><td class="px-6 py-4">${imgInd}</td>`; } 
+                else if (currentAdminSheet === 'Pelatihan') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.nama_pelatihan||'-'}</td><td class="px-6 py-4 text-sm">${item.peran||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm">${item.penyelenggara||'-'}</td><td class="px-6 py-4">${imgInd}</td><td class="px-6 py-4 text-center">${pinInd}</td>`; } 
                 else if (currentAdminSheet === 'GPD') { tr += `<td class="px-6 py-4 text-sm font-bold whitespace-nowrap">${item.level||'-'}</td><td class="px-6 py-4 text-sm">${item.kegiatan||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm truncate max-w-[150px]">${item.deskripsi||'-'}</td><td class="px-6 py-4">${imgInd}</td>`; } 
-                else if (currentAdminSheet === 'PraktikBaik') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.judul||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm truncate max-w-[150px]">${item.deskripsi||'-'}</td><td class="px-6 py-4 text-sm">${item.link_video ? 'Ada Link' : '-'}</td><td class="px-6 py-4">${imgInd}</td>`; }
+                else if (currentAdminSheet === 'PraktikBaik') { tr += `<td class="px-6 py-4 text-sm font-bold">${item.judul||'-'}</td><td class="px-6 py-4 text-sm">${tgl}</td><td class="px-6 py-4 text-sm truncate max-w-[150px]">${item.deskripsi||'-'}</td><td class="px-6 py-4 text-sm">${item.link_video ? 'Ada Link' : '-'}</td><td class="px-6 py-4">${imgInd}</td><td class="px-6 py-4 text-center">${pinInd}</td>`; }
                 
                 tr += `<td class="px-6 py-4 text-right whitespace-nowrap">
                         <button onclick="openEditModal('${item.id}')" class="text-gBlue hover:bg-blue-50 p-2 rounded-lg mr-1"><i class="ph-bold ph-pencil-simple text-lg"></i></button>
@@ -869,6 +884,7 @@
             const inCls = "w-full mt-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-gBlue font-medium";
             const lblCls = "block text-sm font-bold text-gray-700 ml-1";
             const imgField = `<div><label class="${lblCls}">URL Gambar (Koma jika banyak)</label><textarea id="add-f5" rows="2" class="${inCls}" placeholder="https://drive..."></textarea></div>`;
+            const pinField = `<div><label class="${lblCls} flex items-center cursor-pointer mt-4 bg-yellow-50 p-3 rounded-xl border border-yellow-100 w-fit select-none"><input type="checkbox" id="add-f6" class="w-5 h-5 text-gYellow rounded focus:ring-gYellow border-gray-300 mr-2"> <span class="font-bold text-gYellow"><i class="ph-fill ph-push-pin"></i> Pin ke Atas (Maks 3)</span></label></div>`;
 
             let html = '';
             if (currentAdminSheet === 'Profil') {
@@ -901,7 +917,7 @@
                 html = `<div><label class="${lblCls}">Nama Pelatihan</label><input type="text" id="add-f1" required class="${inCls}"></div>
                         <div><label class="${lblCls}">Peran</label><select id="add-f2" required class="${inCls}"><option value="Peserta">Peserta</option><option value="Narasumber">Narasumber</option></select></div>
                         <div><label class="${lblCls}">Tanggal</label><input type="date" id="add-f3" required class="${inCls}"></div>
-                        <div><label class="${lblCls}">Penyelenggara</label><input type="text" id="add-f4" required class="${inCls}"></div> ${imgField}`;
+                        <div><label class="${lblCls}">Penyelenggara</label><input type="text" id="add-f4" required class="${inCls}"></div> ${imgField} ${pinField}`;
             } else if (currentAdminSheet === 'GPD') {
                 let pOptions = '<option value="">-- Pilih Data untuk Diimpor (Opsional) --</option>';
                 if (appData.pelatihan.length > 0) {
@@ -924,7 +940,7 @@
                 html = `<div><label class="${lblCls}">Judul Inovasi</label><input type="text" id="add-f1" required class="${inCls}"></div>
                         <div><label class="${lblCls}">Tanggal</label><input type="date" id="add-f2" required class="${inCls}"></div>
                         <div><label class="${lblCls}">Deskripsi</label><textarea id="add-f3" rows="2" required class="${inCls}"></textarea></div>
-                        <div><label class="${lblCls}">Link Video/Materi</label><input type="url" id="add-f4" class="${inCls}"></div> ${imgField}`;
+                        <div><label class="${lblCls}">Link Video/Materi</label><input type="url" id="add-f4" class="${inCls}"></div> ${imgField} ${pinField}`;
             }
             form.innerHTML = html;
         }
@@ -979,6 +995,8 @@
                     if(el) {
                          if (el.type === 'date' && item[k]) {
                              try { el.value = new Date(item[k]).toISOString().split('T')[0]; } catch(e){}
+                         } else if (el.type === 'checkbox') {
+                             el.checked = (item[k] === 'Ya');
                          } else {
                              el.value = item[k] || '';
                          }
@@ -1000,9 +1018,25 @@
             if(e) e.preventDefault();
             
             let rowData = [];
-            for(let i=1; i<=7; i++){
+            for(let i=1; i<=8; i++){
                 const el = document.getElementById('add-f'+i);
-                if(el) rowData.push(el.value);
+                if(el) {
+                    if (el.type === 'checkbox') rowData.push(el.checked ? 'Ya' : '');
+                    else rowData.push(el.value);
+                }
+            }
+
+            // Validasi Pin Maksimal 3
+            if (currentAdminSheet === 'Pelatihan' || currentAdminSheet === 'PraktikBaik') {
+                const elPin = document.getElementById('add-f6');
+                if (elPin && elPin.checked) {
+                    const currentData = currentAdminSheet === 'Pelatihan' ? appData.pelatihan : appData.praktikBaik;
+                    const existingPins = currentData.filter(item => isItemPinned(item) && String(item.id) !== String(editId)).length;
+                    if (existingPins >= 3) {
+                        alert(`Gagal! Maksimal 3 data yang bisa di-pin pada ${currentAdminSheet === 'PraktikBaik' ? 'Inovasi' : 'Pelatihan'}. Silakan edit dan un-pin data lama terlebih dahulu jika ingin menggantinya.`);
+                        return;
+                    }
+                }
             }
 
             closeAddModal(); showLoader();
